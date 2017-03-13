@@ -1,45 +1,32 @@
 
 public class Bot {
 
-	
-	public static void main (String[] args){
+	public final static String[] H_MOVES = { "UP", "RIGHT", "DOWN" };
+	public final static String[] V_MOVES = { "UP", "RIGHT", "LEFT" };
+
+	public static void main(String[] args) {
 		Board board = new Board(args);
 		countLegal(board);
 	}
-	
-	private static void countLegal(Board b){
+
+	private static void countLegal(Board b) {
 		int hCount = 0;
 		int vCount = 0;
 		Police check;
-		
-		for(int i = 0 ; i < b.getSize(); i++){
-			for(int j = 0; j < b.getSize(); j++){
-				
-				//checking all legal moves for H
-				if((b.getBoard()[i][j]).equals("H")){
-					check = new Police(i, j, i+1, j, b);
-					if (check.hLegal()) hCount++;
-					
-					check = new Police(i, j, i, j-1, b);
-					if (check.hLegal()) hCount++;
-					
-					check = new Police(i, j, i, j+1, b);
-					if (check.hLegal()) hCount++;
-					
-				}
-				
-				//checking all legal moves for H
-				else if((b.getBoard()[i][j]).equals("V")){
-					
-					check = new Police(i, j, i-1, j, b);
-					if (check.hLegal()) vCount++;
 
-					check = new Police(i, j, i+1, j, b);
-					if (check.hLegal()) vCount++;
-
-					check = new Police(i, j, i, j+1, b);
-					if (check.hLegal()) vCount++;
-				}
+		for (Integer[] hPiece : b.getPieces("H")) {
+			check = new Police(hPiece[0], hPiece[1], b);
+			for (String move : H_MOVES) {
+				if (check.checkHMove(move))
+					hCount++;
+			}
+		}
+				
+		for (Integer[] vPiece : b.getPieces("V")) {
+			check = new Police(vPiece[0], vPiece[1], b);
+			for (String move : V_MOVES) {
+				if (check.checkVMove(move))
+					vCount++;
 			}
 		}
 		
