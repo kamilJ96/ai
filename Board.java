@@ -19,7 +19,7 @@ public class Board {
 	private String[][] populate(String[] args) {
 		String[][] board = new String[size][size];
 		int x = 0;
-		int y = -1;
+		int y = size;
 		int pos = 0;
 
 		for (String s : args) {
@@ -30,8 +30,10 @@ public class Board {
 			}
 			
 			// Move to the next row
+			// populate board from higher count since bottom-left = (0,0)
+			// and top-right = (N-1, N-1)
 			if ((pos - 1) % size == 0) {
-				y++;
+				y--;
 				x = 0;
 			}
 
