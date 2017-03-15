@@ -74,17 +74,8 @@ public class Police {
 		String nextCell;
 		
 		
-		if (m == Moves.RIGHT && !hEndEdge()){
-			 nextCell = b.getCell(currentX + x, currentY + y);
-			if(nextCell.equals("+")){
-				return true;
-			}
-		} else if (m == Moves.UP && !vEndEdge()){
-			 nextCell = b.getCell(currentX + x, currentY + y);
-			if(nextCell.equals("+")){
-				return true;
-			}
-		} else if (m == Moves.DOWN && !vStartEdge()){
+		if ((m == Moves.RIGHT && !hEndEdge()) || (m == Moves.UP && !vEndEdge())
+		    || (m == Moves.DOWN && !vStartEdge())){
 			 nextCell = b.getCell(currentX + x, currentY + y);
 			if(nextCell.equals("+")){
 				return true;
@@ -99,24 +90,14 @@ public class Police {
 		int y = m.getY();
 		String nextCell;
 		
-		
-		if (m == Moves.RIGHT && !hEndEdge()){
+		if ((m == Moves.RIGHT && !hEndEdge()) || (m == Moves.LEFT && !hStartEdge())
+		    || (m == Moves.UP && !vEndEdge())){
 			 nextCell = b.getCell(currentX + x, currentY + y);
 			if(nextCell.equals("+")){
 				return true;
 			}
-		} else if (m == Moves.LEFT && !hStartEdge()){
-			nextCell = b.getCell(currentX + x, currentY + y);
-			if(nextCell.equals("+")){
-				return true;
-			}
-		} else if (m == Moves.UP && !vEndEdge()){
-			nextCell = b.getCell(currentX + x, currentY + y);
-			if(nextCell.equals("+")){
-				return true;
-			}
 		}
-		
+		    
 		return false;
 	}
 	
