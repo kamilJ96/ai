@@ -3,12 +3,14 @@ public class Police {
 
 	private int currentX, currentY;
 	private Board b;
+	Moves m;
 
 
-	public Police(int currX, int currY, Board b) {
+	public Police(int currX, int currY, Board b, Moves m) {
 		currentX = currX;
 		currentY = currY;
 		this.b = b;
+		this.m = m;
 	}
 
 
@@ -54,19 +56,19 @@ public class Police {
 	}
 	
 
-	public boolean hLegal() {
-		return (singleStep() && ((!isBlocked() && (nextX - currentX) >= 0) 
-				|| (hEndEdge() && nextX == currentX)) || 
-				(vEndEdge() && (nextY - currentY >= 0)) ||
-				(vStartEdge() && (nextY - currentY <= 0)));
-	}
-
-	public boolean vLegal() {
-		return (singleStep() && ((!isBlocked() && (nextY - currentY) >= 0)
-				|| (vEndEdge() && nextY == currentY) ||
-				(hEndEdge() && (nextX - currentX >= 0)) ||
-				(hStartEdge() && (nextX - currentX <= 0))));
-	}
+//	public boolean hLegal() {
+//		return (singleStep() && ((!isBlocked() && (nextX - currentX) >= 0) 
+//				|| (hEndEdge() && nextX == currentX)) || 
+//				(vEndEdge() && (nextY - currentY >= 0)) ||
+//				(vStartEdge() && (nextY - currentY <= 0)));
+//	}
+//
+//	public boolean vLegal() {
+//		return (singleStep() && ((!isBlocked() && (nextY - currentY) >= 0)
+//				|| (vEndEdge() && nextY == currentY) ||
+//				(hEndEdge() && (nextX - currentX >= 0)) ||
+//				(hStartEdge() && (nextX - currentX <= 0))));
+//	}
 
 	public boolean hWin() {
 		boolean won = true;
@@ -92,8 +94,9 @@ public class Police {
 		return won;
 	}
 
-	private boolean isBlocked() {
-		return !b.getCell(nextY, nextX).equals("+");
+	@SuppressWarnings("unused")
+	private boolean nextCellBlocked() {
+		return !b.getCell(currentX + m.getX(), currentY + m.getY()).equals("+");
 	}
 
 	private boolean hStartEdge() {
@@ -111,9 +114,9 @@ public class Police {
 	private boolean vEndEdge() {
 		return currentY == b.getSize() - 1;
 	}
-
-	private boolean singleStep() {
-		return ((Math.abs(currentX - nextX) == 1 && currentY == nextY)
-				|| (Math.abs(currentY - nextY) == 1 && currentX == nextX));
-	}
+//
+//	private boolean singleStep() {
+//		return ((Math.abs(currentX - nextX) == 1 && currentY == nextY)
+//				|| (Math.abs(currentY - nextY) == 1 && currentX == nextX));
+//	}
 }

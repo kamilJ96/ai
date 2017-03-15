@@ -18,9 +18,10 @@ public class Bot {
 		Police check;
 
 		for (Integer[] hPiece : b.getPieces("H")) {
-			check = new Police(hPiece[0], hPiece[1], b);
+
 //			for (String move : H_MOVES) {
 			for (Moves move : H_MOVES) {
+				check = new Police(hPiece[0], hPiece[1], b, move);
 //				if (check.checkHMove(move))
 				if (check.hCheck(move))
 					hCount++;
@@ -28,9 +29,10 @@ public class Bot {
 		}
 				
 		for (Integer[] vPiece : b.getPieces("V")) {
-			check = new Police(vPiece[0], vPiece[1], b);
+
 //			for (String move : V_MOVES) {
 			for (Moves move : V_MOVES){
+				check = new Police(vPiece[0], vPiece[1], b, move);
 //				if (check.checkVMove(move))
 				if (check.vCheck(move))
 					vCount++;
