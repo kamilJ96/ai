@@ -1,16 +1,9 @@
 
 public class Police {
 
-	private int currentX, currentY, nextX, nextY;
+	private int currentX, currentY;
 	private Board b;
 
-	public Police(int currentX, int currentY, int nextX, int nextY, Board b) {
-		this.currentX = currentX;
-		this.currentY = currentY;
-		this.nextX = nextX;
-		this.nextY = nextY;
-		this.b = b;
-	}
 
 	public Police(int currX, int currY, Board b) {
 		currentX = currX;
@@ -18,61 +11,16 @@ public class Police {
 		this.b = b;
 	}
 
-//	public boolean checkHMove(String move) {
-//		int x = 0;
-//		int y = 0;
-//
-//		if (move.equals("UP")) {
-//			if (currentY - 1 == -1)
-//				return false;
-//			y = -1;
-//		} else if (move.equals("DOWN")) {
-//			if (currentY + 1 == b.getSize())
-//				return false;
-//			y = 1;
-//		} else { // moving right
-//			if (currentX + 1 == b.getSize())
-//				return true;
-//			x = 1;
-//		}
-//
-//		String nextCell = b.getCell(currentX + x, currentY + y);
-//		if (nextCell.equals("+"))
-//			return true;
-//		return false;
-//	}
-//	
-//	public boolean checkVMove(String move) {
-//		int x = 0;
-//		int y = 0;
-//		
-//		if (move.equals("UP")) {
-//			if (currentY - 1 == -1)
-//				return true;
-//			y = -1;
-//		} else if (move.equals("RIGHT")) {
-//			if (currentX + 1 == b.getSize()) {
-//				return false;
-//		}
-//			x = 1;
-//		} else { // moving left
-//			if (currentX - 1 == -1)
-//				return false;
-//			x = -1;
-//		}
-//
-//		String nextCell = b.getCell(currentX + x, currentY + y);
-//		if (nextCell.equals("+"))
-//			return true;
-//		return false;
-//	}
-	
-	
+
 	public boolean hCheck(Moves m){
 		int x = m.getX();
 		int y = m.getY();
 		String nextCell;
 		
+		
+		if(m == Moves.RIGHT && hEndEdge()){
+			return true;
+		}
 		
 		if ((m == Moves.RIGHT && !hEndEdge()) || (m == Moves.UP && !vEndEdge())
 		    || (m == Moves.DOWN && !vStartEdge())){
@@ -89,6 +37,10 @@ public class Police {
 		int x = m.getX();
 		int y = m.getY();
 		String nextCell;
+		
+		if(m == Moves.UP && vEndEdge()){
+			return true;
+		}
 		
 		if ((m == Moves.RIGHT && !hEndEdge()) || (m == Moves.LEFT && !hStartEdge())
 		    || (m == Moves.UP && !vEndEdge())){
