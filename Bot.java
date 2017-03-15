@@ -1,8 +1,11 @@
 
 public class Bot {
 
-	public final static String[] H_MOVES = { "UP", "RIGHT", "DOWN" };
-	public final static String[] V_MOVES = { "UP", "RIGHT", "LEFT" };
+//	public final static String[] H_MOVES = { "UP", "RIGHT", "DOWN" };
+//	public final static String[] V_MOVES = { "UP", "RIGHT", "LEFT" };
+	
+	public final static Moves[] H_MOVES = { Moves.UP, Moves.RIGHT, Moves.DOWN };
+	public final static Moves[] V_MOVES = { Moves.UP, Moves.RIGHT, Moves.LEFT };
 
 	public static void main(String[] args) {
 		Board board = new Board(args);
@@ -16,20 +19,25 @@ public class Bot {
 
 		for (Integer[] hPiece : b.getPieces("H")) {
 			check = new Police(hPiece[0], hPiece[1], b);
-			for (String move : H_MOVES) {
-				if (check.checkHMove(move))
+//			for (String move : H_MOVES) {
+			for (Moves move : H_MOVES) {
+//				if (check.checkHMove(move))
+				if (check.hCheck(move))
 					hCount++;
 			}
 		}
 				
 		for (Integer[] vPiece : b.getPieces("V")) {
 			check = new Police(vPiece[0], vPiece[1], b);
-			for (String move : V_MOVES) {
-				if (check.checkVMove(move))
+//			for (String move : V_MOVES) {
+			for (Moves move : V_MOVES){
+//				if (check.checkVMove(move))
+				if (check.vCheck(move))
 					vCount++;
 			}
 		}
 		
+	
 		System.out.println(hCount);
 		System.out.println(vCount);
 	}
