@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Bot {
 
@@ -8,7 +10,18 @@ public class Bot {
 	public final static Moves[] V_MOVES = { Moves.UP, Moves.RIGHT, Moves.LEFT };
 
 	public static void main(String[] args) {
-		Board board = new Board(args);
+		Scanner sc = new Scanner(System.in);
+		ArrayList<String> conf = new ArrayList<String>();
+		String[] confArray;
+		Board board;
+		
+		
+		while(sc.hasNext()){
+			conf.add(sc.next());
+		}
+		confArray = new String[conf.size()];
+		conf.toArray(confArray);
+		board = new Board(confArray);
 		countLegal(board);
 	}
 
