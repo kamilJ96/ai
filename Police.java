@@ -1,3 +1,6 @@
+//This is our checker class.  It determines legal moves, and whatever else
+//requires checking.
+
 
 public class Police {
 
@@ -17,13 +20,16 @@ public class Police {
 		int y = m.getY();
 		String nextCell;
 
-		// Check for when a H piece wants to move off the right-side of the board
+		// Check for when a H piece wants to move off the right-side
+		//of the board
 		if (m == Moves.RIGHT && hEndEdge()) {
 			return true;
 		}
 
-		// Make sure the H piece isn't trying to move off the board in the vertical direction
-		if ((m == Moves.RIGHT) || (m == Moves.UP && !vEndEdge()) || (m == Moves.DOWN && !vStartEdge())) {
+		// Make sure the H piece isn't trying to move off the board in the 
+		//vertical direction
+		if ((m == Moves.RIGHT) || (m == Moves.UP && !vEndEdge()) ||
+				(m == Moves.DOWN && !vStartEdge())) {
 			nextCell = b.getCell(currentX + x, currentY + y);
 			if (nextCell.equals("+")) {
 				return true;
@@ -43,8 +49,10 @@ public class Police {
 			return true;
 		}
 
-		// Make sure the V piece isn't trying to move off the board in the horizontal direction
-		if ((m == Moves.UP) || (m == Moves.RIGHT && !hEndEdge()) || (m == Moves.LEFT && !hStartEdge())) {
+		// Make sure the V piece isn't trying to move off the board 
+		//in the horizontal direction
+		if ((m == Moves.UP) || (m == Moves.RIGHT && !hEndEdge()) || 
+				(m == Moves.LEFT && !hStartEdge())) {
 			nextCell = b.getCell(currentX + x, currentY + y);
 			if (nextCell.equals("+")) {
 				return true;
@@ -71,7 +79,8 @@ public class Police {
 	}
 
 //	public boolean hLegal() {
-//	return (singleStep() && ((!isBlocked() && (nextX - currentX) >= 0) || (hEndEdge() && nextX == currentX)) ||
+//	return (singleStep() && ((!isBlocked() && (nextX - currentX) >= 0) 
+//	|| (hEndEdge() && nextX == currentX)) ||
 //	(vEndEdge() && (nextY - currentY >= 0)) ||
 //	(vStartEdge() && (nextY - currentY <= 0)));
 //	}
