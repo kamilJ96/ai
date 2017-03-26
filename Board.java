@@ -28,7 +28,7 @@ public class Board {
 				pos++;
 				continue;
 			}
-			
+
 			// Move to the next row
 			// populate board from higher count since bottom-left = (0,0)
 			// and top-right = (N-1, N-1)
@@ -39,6 +39,7 @@ public class Board {
 
 			board[y][x] = s;
 
+			// Keep track of where each piece is on the board
 			if (s.equals("H")) {
 				Integer[] coords = { x, y };
 				hPieces.add(coords);
@@ -46,7 +47,7 @@ public class Board {
 				Integer[] coords = { x, y };
 				vPieces.add(coords);
 			}
-			
+
 			x++;
 			pos++;
 		}
