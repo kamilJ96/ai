@@ -8,15 +8,15 @@ public class Board {
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
 
-	public Board(String[] args) {
+	public Board(ArrayList<String> args, int size) {
 		hPieces = new ArrayList<Integer[]>();
 		vPieces = new ArrayList<Integer[]>();
 
-		this.size = Integer.parseInt(args[0]);
+		this.size = size;
 		this.board = populate(args);
 	}
 
-	private String[][] populate(String[] args) {
+	private String[][] populate(ArrayList<String> args) {
 		String[][] board = new String[size][size];
 		int x = 0;
 		int y = size;

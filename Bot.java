@@ -17,19 +17,19 @@ public class Bot {
 		String piece;
 		
 		size = sc.nextInt();
-		System.out.println(size);
 		
 		while(sc.hasNext()){
 			piece = sc.next();
-			System.out.println(piece);
 			conf.add(piece);
 		}
+
+		sc.close();
 		
 //		size = Integer.parseInt(conf.get(0));
 //		conf.remove(0);
-		confArray = new String[conf.size()];
-		conf.toArray(confArray);
-		board = new Board(confArray);
+//		confArray = new String[conf.size()];
+//		conf.toArray(confArray);
+		board = new Board(conf, size);
 		countLegal(board);
 	}
 

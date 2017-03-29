@@ -1,0 +1,34 @@
+- Bot.java reads the input and puts it into an ArrayList.
+- Board.java takes this ArrayList and builds the board configuration. It also tracks where each Vertical and Horizontal piece is on the board in two ArrayLists.
+- Police.java checks if a Vertical or Horizontal move is legal for that piece.
+- Moves.java defines the possible legal moves for the Horizontal and Vertical pieces, since there are only 3 legal moves for each piece type we restricted the possible moveset to these legal moves.
+
+Libraries used:
+	- java.util.ArrayList
+	- java.util.Scanner
+
+Reading in the board configuration is of order O(n^2) where n is the width/height of the board.
+Checking legal moves requires O(2(n-1) * 3) = O(n), this is because there are a maximum of 2(n-1) pieces on the board at any time, and each piece has 3 possible moves.
+
+Checking moves pseudo-code:
+	for all horizontal pieces:
+		do:
+		if check move up is possible:
+			then count<-count+1
+		if check move right is possible:
+			then count<-count+1
+		if check move down is possible:
+			then count<-count+1
+	return count
+
+	for all vertical pieces:
+		do:
+		if check move up is possible:
+			then count<-count+1
+		if check move right is possible:
+			then count<-count+1
+		if check move left is possible:
+			then count<-count+1
+	return count
+
+
