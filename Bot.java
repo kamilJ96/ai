@@ -13,11 +13,20 @@ public class Bot {
 		ArrayList<String> conf = new ArrayList<String>();
 		String[] confArray;
 		Board board;
+		int size;
+		String piece;
 		
+		size = sc.nextInt();
+		System.out.println(size);
 		
 		while(sc.hasNext()){
-			conf.add(sc.next());
+			piece = sc.next();
+			System.out.println(piece);
+			conf.add(piece);
 		}
+		
+//		size = Integer.parseInt(conf.get(0));
+//		conf.remove(0);
 		confArray = new String[conf.size()];
 		conf.toArray(confArray);
 		board = new Board(confArray);

@@ -24,15 +24,11 @@ public class Board {
 
 		for (String s : args) {
 			// Disregard the first line in args
-			if (pos == 0) {
-				pos++;
-				continue;
-			}
 
 			// Move to the next row
 			// populate board from higher count since bottom-left = (0,0)
 			// and top-right = (N-1, N-1)
-			if ((pos - 1) % size == 0) {
+			if (pos % size == 0) {
 				y--;
 				x = 0;
 			}
