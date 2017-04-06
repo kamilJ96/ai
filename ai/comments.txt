@@ -1,3 +1,6 @@
+Ai-Linh Tran taal
+Kamil Jakrzewski kjakrzewski
+----------------------------
 - Bot.java reads the input and puts it into an ArrayList.
 - Board.java takes this ArrayList and builds the board configuration. It also tracks where each Vertical and Horizontal piece is on the board in two ArrayLists.
 - Police.java checks if a Vertical or Horizontal move is legal for that piece.
@@ -30,5 +33,4 @@ Checking moves pseudo-code:
 		if check move left is possible:
 			then count<-count+1
 	return count
-
 

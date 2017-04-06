@@ -1,3 +1,5 @@
+/* Kamil Jakrzewski kjakrzewski
+ * Ai-Linh Tran taal */
 import java.util.ArrayList;
 import java.util.Scanner;
 

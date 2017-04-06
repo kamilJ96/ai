@@ -1,4 +1,5 @@
-
+/* Ai-Linh Tran taal
+ * Kamil Jakrzewski kjakrzewski */
 public enum Moves {
 	UP (0, 1), 
 	DOWN (0, -1), 
