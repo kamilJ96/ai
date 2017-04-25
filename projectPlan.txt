@@ -1,0 +1,8 @@
+1. 
+
+2. We can regularly meet up after the Wednesday AI lecture, and also on Friday before the tute if needed. We communicate regularly through text, and will also be using Github which allows us to discuss changes/addition in code.
+
+3. Other subject work for Kamil:
+    - SWEN30024: Project Part B (due 27/04) and Part C (unknown due date)
+    - COMP30023: Mid-semester (on 28/04) and Project 2 (unkown due date)
+    - INFO30005: Weekly deliverables and a Project report (due week 11)
