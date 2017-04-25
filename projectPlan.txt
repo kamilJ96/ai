@@ -1,4 +1,4 @@
-1. 
+1. Nothing concrete about the sharing of workload at the moment.  It depends on how we plan out / design out AI and how much time we can both put towards the project.
 
 2. We can regularly meet up after the Wednesday AI lecture, and also on Friday before the tute if needed. We communicate regularly through text, and will also be using Github which allows us to discuss changes/addition in code.
 
@@ -6,3 +6,6 @@
     - SWEN30024: Project Part B (due 27/04) and Part C (unknown due date)
     - COMP30023: Mid-semester (on 28/04) and Project 2 (unkown due date)
     - INFO30005: Weekly deliverables and a Project report (due week 11)
+    
+4. Other subject work for Ai-linh:
+    - COMP30023: Mid-semester (on 28/04) and Project 2 (unkown due date)
