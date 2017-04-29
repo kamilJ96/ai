@@ -1,5 +1,9 @@
 /* Ai-Linh Tran taal
  * Kamil Jakrzewski kjakrzewski */
+
+import aiproj.slider.*;
+
+
 public enum PersonalMoves {
 	UP (0, 1), 
 	DOWN (0, -1), 
@@ -25,5 +29,44 @@ public enum PersonalMoves {
 	
 	public int getY(){
 		return y;
+	}
+	
+	public static PersonalMoves toPersonalMoves(int i, int j){
+		
+		if(i == 0 && j == 1){
+			return PersonalMoves.UP;
+		}
+		if(i == 0 && j == -1){
+			return PersonalMoves.DOWN;
+		}
+		if(i == -1 && j == 0){
+			return PersonalMoves.LEFT;
+		}
+		if(i == 1 && j == 0){
+			return PersonalMoves.RIGHT;
+		}
+		
+		return null;
+	}
+	
+	public Move toMove(PersonalMoves pm){
+		Move m;
+		Move.Direction dir = null;
+	
+		if(pm == PersonalMoves.UP){
+			dir = Move.Direction.UP;
+		}
+		else if(pm == PersonalMoves.DOWN){
+			dir = Move.Direction.DOWN;
+		}
+		else if(pm == PersonalMoves.LEFT){
+			dir = Move.Direction.LEFT;
+		}
+		else if(pm == PersonalMoves.RIGHT){
+			dir = Move.Direction.RIGHT;
+		}
+		
+		m = new Move(pm.x, pm.y, dir);
+		return m;
 	}
 }
