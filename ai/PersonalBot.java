@@ -1,9 +1,11 @@
 /* Kamil Jakrzewski kjakrzewski
  * Ai-Linh Tran taal */
+
+import aiproj.slider.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class PersonalBot {
+public class PersonalBot implements SliderPlayer{
 
 	// Legal Horizontal piece moves
 	public final static PersonalMoves[] H_MOVES = { PersonalMoves.UP, PersonalMoves.RIGHT, PersonalMoves.DOWN };
@@ -59,5 +61,23 @@ public class PersonalBot {
 
 		System.out.println(hCount);
 		System.out.println(vCount);
+	}
+
+	@Override
+	public void init(int dimension, String board, char player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Move move) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Move move() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
