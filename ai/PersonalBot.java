@@ -12,11 +12,13 @@ public class PersonalBot implements SliderPlayer{
 	// Legal Vertical piece moves
 	public final static PersonalMoves[] V_MOVES = { PersonalMoves.UP, PersonalMoves.RIGHT, PersonalMoves.LEFT };
 
-	public static void main(String[] args) {
+
+	@Override
+	public void init(int dimension, String board, char player) {
 		Scanner sc = new Scanner(System.in);
 		ArrayList<String> conf = new ArrayList<String>();
 		String[] confArray;
-		PersonalBoard board;
+		PersonalBoard b;
 		int size;
 		String piece;
 		
@@ -33,10 +35,23 @@ public class PersonalBot implements SliderPlayer{
 //		conf.remove(0);
 //		confArray = new String[conf.size()];
 //		conf.toArray(confArray);
-		board = new PersonalBoard(conf, size);
-		countLegal(board);
+		b = new PersonalBoard(conf, size);
+		countLegal(b);
+		
 	}
 
+	@Override
+	public void update(Move move) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Move move() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	private static void countLegal(PersonalBoard b) {
 		int hCount = 0;
 		int vCount = 0;
@@ -61,23 +76,5 @@ public class PersonalBot implements SliderPlayer{
 
 		System.out.println(hCount);
 		System.out.println(vCount);
-	}
-
-	@Override
-	public void init(int dimension, String board, char player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Move move) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Move move() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
