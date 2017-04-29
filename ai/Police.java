@@ -7,31 +7,31 @@
 public class Police {
 
 	private int currentX, currentY;
-	private Board b;
-	Moves m;
+	private PersonalBoard b;
+	PersonalMoves m;
 
-	public Police(int currX, int currY, Board b, Moves m) {
+	public Police(int currX, int currY, PersonalBoard b, PersonalMoves m) {
 		currentX = currX;
 		currentY = currY;
 		this.b = b;
 		this.m = m;
 	}
 
-	public boolean hCheck(Moves m) {
+	public boolean hCheck(PersonalMoves m) {
 		int x = m.getX();
 		int y = m.getY();
 		String nextCell;
 
 		// Check for when a H piece wants to move off the right-side
 		//of the board
-		if (m == Moves.RIGHT && hEndEdge()) {
+		if (m == PersonalMoves.RIGHT && hEndEdge()) {
 			return true;
 		}
 
 		// Make sure the H piece isn't trying to move off the board in the 
 		//vertical direction
-		if ((m == Moves.RIGHT) || (m == Moves.UP && !vEndEdge()) ||
-				(m == Moves.DOWN && !vStartEdge())) {
+		if ((m == PersonalMoves.RIGHT) || (m == PersonalMoves.UP && !vEndEdge()) ||
+				(m == PersonalMoves.DOWN && !vStartEdge())) {
 			nextCell = b.getCell(currentX + x, currentY + y);
 			if (nextCell.equals("+")) {
 				return true;
@@ -41,20 +41,20 @@ public class Police {
 		return false;
 	}
 
-	public boolean vCheck(Moves m) {
+	public boolean vCheck(PersonalMoves m) {
 		int x = m.getX();
 		int y = m.getY();
 		String nextCell;
 
 		// Check for when a V piece wants to move up and off the board
-		if (m == Moves.UP && vEndEdge()) {
+		if (m == PersonalMoves.UP && vEndEdge()) {
 			return true;
 		}
 
 		// Make sure the V piece isn't trying to move off the board 
 		//in the horizontal direction
-		if ((m == Moves.UP) || (m == Moves.RIGHT && !hEndEdge()) || 
-				(m == Moves.LEFT && !hStartEdge())) {
+		if ((m == PersonalMoves.UP) || (m == PersonalMoves.RIGHT && !hEndEdge()) || 
+				(m == PersonalMoves.LEFT && !hStartEdge())) {
 			nextCell = b.getCell(currentX + x, currentY + y);
 			if (nextCell.equals("+")) {
 				return true;

@@ -2,7 +2,7 @@
  * Ai-Linh Tran taal */
 import java.util.ArrayList;
 
-public class Board {
+public class PersonalBoard {
 
 	private String[][] board;
 	private int size;
@@ -10,7 +10,7 @@ public class Board {
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
 
-	public Board(ArrayList<String> args, int size) {
+	public PersonalBoard(ArrayList<String> args, int size) {
 		hPieces = new ArrayList<Integer[]>();
 		vPieces = new ArrayList<Integer[]>();
 

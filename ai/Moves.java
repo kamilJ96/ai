@@ -1,6 +1,6 @@
 /* Ai-Linh Tran taal
  * Kamil Jakrzewski kjakrzewski */
-public enum Moves {
+public enum PersonalMoves {
 	UP (0, 1), 
 	DOWN (0, -1), 
 	LEFT (-1, 0), 
@@ -9,7 +9,7 @@ public enum Moves {
 	private final int x;
 	private final int y;
 	
-	Moves(int x, int y){
+	PersonalMoves(int x, int y){
 		this.x = x;
 		this.y = y;
 	}
