@@ -15,27 +15,11 @@ public class PersonalBot implements SliderPlayer{
 
 	@Override
 	public void init(int dimension, String board, char player) {
-		Scanner sc = new Scanner(System.in);
-		ArrayList<String> conf = new ArrayList<String>();
-		String[] confArray;
 		PersonalBoard b;
-		int size;
 		String piece;
 		
-		size = sc.nextInt();
 		
-		while(sc.hasNext()){
-			piece = sc.next();
-			conf.add(piece);
-		}
-
-		sc.close();
-		
-//		size = Integer.parseInt(conf.get(0));
-//		conf.remove(0);
-//		confArray = new String[conf.size()];
-//		conf.toArray(confArray);
-		b = new PersonalBoard(conf, size);
+		b = new PersonalBoard(board, dimension);
 		countLegal(b);
 		
 	}
