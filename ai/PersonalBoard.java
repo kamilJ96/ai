@@ -127,5 +127,32 @@ public class PersonalBoard {
 			return hPieces;
 		return vPieces;
 	}
+	
+	public void makeMove(int[] piece, PersonalMoves dir, char player){
+		board[piece[0]][piece[1]] = '+';
+		board[piece[0]+dir.getX()][piece[1]+dir.getY()] = player;
+		
+		//update pieces list
+		if(player =='H'){
+			for(Integer[] p : hPieces){
+				if(p[0] == piece[0] && p[1] == piece[1]){
+					p[0] += dir.getX();
+					p[1] += dir.getY();
+					break;
+				}
+			}
+		}
+		else{
+			for(Integer[] p : vPieces){
+				if(p[0] == piece[0] && p[1] == piece[1]){
+					p[0] += dir.getX();
+					p[1] += dir.getY();
+					break;
+				}				
+			}
+		}
+		
+		
+	}
 
 }
