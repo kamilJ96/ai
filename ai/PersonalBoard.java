@@ -121,9 +121,13 @@ public class PersonalBoard {
 	public char getCell(int x, int y) {
 		return board[y][x];
 	}
+	
+	public void setCell(int x, int y, char value) {
+		board[y][x] = value;
+	}
 
-	public ArrayList<Integer[]> getPieces(String player) {
-		if (player.equals("H"))
+	public ArrayList<Integer[]> getPieces(char player) {
+		if (player == 'H')
 			return hPieces;
 		return vPieces;
 	}
