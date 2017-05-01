@@ -20,7 +20,7 @@ public class Police {
 	public boolean hCheck(PersonalMoves m) {
 		int x = m.getX();
 		int y = m.getY();
-		String nextCell;
+		char nextCell;
 
 		// Check for when a H piece wants to move off the right-side
 		//of the board
@@ -33,7 +33,7 @@ public class Police {
 		if ((m == PersonalMoves.RIGHT) || (m == PersonalMoves.UP && !vEndEdge()) ||
 				(m == PersonalMoves.DOWN && !vStartEdge())) {
 			nextCell = b.getCell(currentX + x, currentY + y);
-			if (nextCell.equals("+")) {
+			if (nextCell== '+') {
 				return true;
 			}
 		}
@@ -44,7 +44,7 @@ public class Police {
 	public boolean vCheck(PersonalMoves m) {
 		int x = m.getX();
 		int y = m.getY();
-		String nextCell;
+		char nextCell;
 
 		// Check for when a V piece wants to move up and off the board
 		if (m == PersonalMoves.UP && vEndEdge()) {
@@ -56,7 +56,7 @@ public class Police {
 		if ((m == PersonalMoves.UP) || (m == PersonalMoves.RIGHT && !hEndEdge()) || 
 				(m == PersonalMoves.LEFT && !hStartEdge())) {
 			nextCell = b.getCell(currentX + x, currentY + y);
-			if (nextCell.equals("+")) {
+			if (nextCell== '+') {
 				return true;
 			}
 		}
