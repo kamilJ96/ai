@@ -31,25 +31,25 @@ public enum PersonalMoves {
 		return y;
 	}
 	
-	public static PersonalMoves toPersonalMoves(int i, int j){
+	public static PersonalMoves toPersonalMoves(Move m){
 		
-		if(i == 0 && j == 1){
+		if(m.d == Move.Direction.UP){
 			return PersonalMoves.UP;
 		}
-		if(i == 0 && j == -1){
+		if(m.d == Move.Direction.DOWN){
 			return PersonalMoves.DOWN;
 		}
-		if(i == -1 && j == 0){
+		if(m.d == Move.Direction.LEFT){
 			return PersonalMoves.LEFT;
 		}
-		if(i == 1 && j == 0){
+		if(m.d == Move.Direction.RIGHT){
 			return PersonalMoves.RIGHT;
 		}
 		
 		return null;
 	}
 	
-	public Move toMove(PersonalMoves pm){
+	public Move toMove(Integer[] pos, PersonalMoves pm){
 		Move m;
 		Move.Direction dir = null;
 	
@@ -66,7 +66,7 @@ public enum PersonalMoves {
 			dir = Move.Direction.RIGHT;
 		}
 		
-		m = new Move(pm.x, pm.y, dir);
+		m = new Move(pos[0], pos[1], dir);
 		return m;
 	}
 }
