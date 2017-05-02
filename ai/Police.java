@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /* Ai-Linh Tran taal
  * Kamil Jakrzewski kjakrzewski
  * This is our checker class.  It determines legal moves, and whatever else
@@ -10,11 +12,10 @@ public class Police {
 	private PersonalBoard b;
 	PersonalMoves m;
 
-	public Police(int currX, int currY, PersonalBoard b, PersonalMoves m) {
+	public Police(int currX, int currY, PersonalBoard b) {
 		currentX = currX;
 		currentY = currY;
 		this.b = b;
-		this.m = m;
 	}
 
 	public boolean hCheck(PersonalMoves m) {
@@ -80,6 +81,17 @@ public class Police {
 		return currentY == b.getSize() - 1;
 	}
 
+	public char winner(ArrayList<Integer[]> hPieces, ArrayList<Integer[]> vPieces){
+		char win = 'N';
+		if(hPieces.isEmpty()){
+			win = 'H'; 
+		}
+		else if(vPieces.isEmpty()){
+			win = 'V';
+		}
+		
+		return win;
+	}
 //	public boolean hLegal() {
 //	return (singleStep() && ((!isBlocked() && (nextX - currentX) >= 0) 
 //	|| (hEndEdge() && nextX == currentX)) ||
@@ -94,29 +106,7 @@ public class Police {
 //	(hStartEdge() && (nextX - currentX <= 0))));
 //	}
 //
-//	public boolean hWin() {
-//		boolean won = true;
-//
-//		for (int i = 0; i < b.getSize(); i++) {
-//			won &= b.getCell(i, b.getSize() - 1).equals("H");
-//			if (!won) {
-//				return won;
-//			}
-//		}
-//		return won;
-//	}
-//
-//	public boolean vWin() {
-//		boolean won = true;
-//
-//		for (int i = 0; i < b.getSize(); i++) {
-//			won &= b.getCell(b.getSize() - 1, i).equals("V");
-//			if (!won) {
-//				return won;
-//			}
-//		}
-//		return won;
-//	}
+
 //
 //	@SuppressWarnings("unused")
 //	private boolean nextCellBlocked() {
