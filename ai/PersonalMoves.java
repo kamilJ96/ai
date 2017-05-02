@@ -12,7 +12,11 @@ public enum PersonalMoves {
 	
 	private final int x;
 	private final int y;
-	
+	// Legal Horizontal piece moves
+	public final static PersonalMoves[] H_MOVES = { PersonalMoves.UP, PersonalMoves.RIGHT, PersonalMoves.DOWN };
+	// Legal Vertical piece moves
+	public final static PersonalMoves[] V_MOVES = { PersonalMoves.UP, PersonalMoves.RIGHT, PersonalMoves.LEFT };
+
 	PersonalMoves(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -34,16 +38,16 @@ public enum PersonalMoves {
 	public static PersonalMoves toPersonalMoves(Move m){
 		
 		if(m.d == Move.Direction.UP){
-			return PersonalMoves.UP;
+			return UP;
 		}
 		if(m.d == Move.Direction.DOWN){
-			return PersonalMoves.DOWN;
+			return DOWN;
 		}
 		if(m.d == Move.Direction.LEFT){
-			return PersonalMoves.LEFT;
+			return LEFT;
 		}
 		if(m.d == Move.Direction.RIGHT){
-			return PersonalMoves.RIGHT;
+			return RIGHT;
 		}
 		
 		return null;
@@ -53,16 +57,16 @@ public enum PersonalMoves {
 		Move m;
 		Move.Direction dir = null;
 	
-		if(pm == PersonalMoves.UP){
+		if(pm == UP){
 			dir = Move.Direction.UP;
 		}
-		else if(pm == PersonalMoves.DOWN){
+		else if(pm == DOWN){
 			dir = Move.Direction.DOWN;
 		}
-		else if(pm == PersonalMoves.LEFT){
+		else if(pm == LEFT){
 			dir = Move.Direction.LEFT;
 		}
-		else if(pm == PersonalMoves.RIGHT){
+		else if(pm == RIGHT){
 			dir = Move.Direction.RIGHT;
 		}
 		
