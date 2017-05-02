@@ -3,14 +3,9 @@
 
 import aiproj.slider.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PersonalBot implements SliderPlayer{
 
-	// Legal Horizontal piece moves
-	public final static PersonalMoves[] H_MOVES = { PersonalMoves.UP, PersonalMoves.RIGHT, PersonalMoves.DOWN };
-	// Legal Vertical piece moves
-	public final static PersonalMoves[] V_MOVES = { PersonalMoves.UP, PersonalMoves.RIGHT, PersonalMoves.LEFT };
 
 	private char player;
 	private char opponent;
@@ -60,6 +55,33 @@ public class PersonalBot implements SliderPlayer{
 		return null;
 	}
 	
+	private boolean canMove(PersonalBoard b){
+		Police check;
+		
+		if(player == 'H'){
+			// For each piece, iterate through its possible moves and check if each is legal 
+			for (Integer[] hPiece : myPieces) {
+				for (PersonalMoves move : PersonalMoves.H_MOVES) {
+					check = new Police(hPiece[0], hPiece[1], b);
+					if (check.hCheck(move))
+						return true;
+				}
+			}
+		}
+		else{
+			// For each piece, iterate through its possible moves and check if each is legal 
+			for (Integer[] hPiece : myPieces) {
+				for (PersonalMoves move : PersonalMoves.V_MOVES) {
+					check = new Police(hPiece[0], hPiece[1], b);
+					if (check.hCheck(move))
+						return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	private void countLegal(PersonalBoard b) {
 		int hCount = 0;
 		int vCount = 0;
@@ -67,16 +89,16 @@ public class PersonalBot implements SliderPlayer{
 
 		// For each piece, iterate through its possible moves and check if each is legal 
 		for (Integer[] hPiece : myPieces) {
-			for (PersonalMoves move : H_MOVES) {
-				check = new Police(hPiece[0], hPiece[1], b, move);
+			for (PersonalMoves move : PersonalMoves.H_MOVES) {
+				check = new Police(hPiece[0], hPiece[1], b);
 				if (check.hCheck(move))
 					hCount++;
 			}
 		}
 
 		for (Integer[] vPiece : opponentPieces) {
-			for (PersonalMoves move : V_MOVES) {
-				check = new Police(vPiece[0], vPiece[1], b, move);
+			for (PersonalMoves move : PersonalMoves.V_MOVES) {
+				check = new Police(vPiece[0], vPiece[1], b);
 				if (check.vCheck(move))
 					vCount++;
 			}
