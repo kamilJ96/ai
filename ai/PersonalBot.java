@@ -12,11 +12,13 @@ public class PersonalBot implements SliderPlayer{
 	private PersonalBoard b;
 	private ArrayList<Integer[]> myPieces;
 	private ArrayList<Integer[]> opponentPieces;
+	private int passed;
 
 	@Override
 	public void init(int dimension, String board, char player) {
 		this.player = player;
 		this.b = new PersonalBoard(board, dimension);
+		this.passed = 0;
 		
 		if(player == 'H'){
 			this.opponent = 'V';
@@ -35,6 +37,15 @@ public class PersonalBot implements SliderPlayer{
 	@Override
 	public void update(Move move) {
 		PersonalMoves m = PersonalMoves.toPersonalMoves(move);
+		//check if opponent passed
+		if(move.d == null){
+			passed++;
+			return;
+		}
+		//possible that we passed before, so set back to 0
+		passed = 0;
+		
+		//update board
 		for(Integer[] p : opponentPieces){
 			if(p[0] == move.i && p[1] == move.j){
 				//might have some indexing problems
@@ -54,6 +65,8 @@ public class PersonalBot implements SliderPlayer{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 	
 
 	
