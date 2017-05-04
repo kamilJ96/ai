@@ -7,6 +7,7 @@ public class PersonalBoard {
 //	private String[][] board;
 	private char[][] board;
 	private int size;
+	private int miniMaxVal;
 
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
@@ -60,6 +61,7 @@ public class PersonalBoard {
 
 		this.size = size;
 		this.board = populate(args);
+		this.miniMaxVal = 0;
 	}
 
 	private char[][] populate(String args) {
@@ -130,6 +132,14 @@ public class PersonalBoard {
 		if (player == 'H')
 			return hPieces;
 		return vPieces;
+	}
+	
+	public int getMiniMaxVal(){
+		return miniMaxVal;
+	}
+	
+	public void setMiniMaxVal(int val){
+		miniMaxVal = val;
 	}
 	
 	public void makeMove(int[] piece, PersonalMoves dir, char player){

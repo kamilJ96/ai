@@ -73,46 +73,6 @@ public class PersonalBot implements SliderPlayer{
 		return null;
 	}
 	
-	private void generateGraph(){
-		
-		
-		
-		
-		
-	}
-	
-	
-	//simple utility function
-	//want own player to be max and opponent to be min
-	//if opponent has more moves to win, then own player is max
-	private int utilFn(){
-		int hToEnd = 0;
-		int vToEnd = 0;
-		int val = 0;
-		
-		if(player == 'H'){
-			for(Integer[] pos : myPieces){
-				hToEnd += pos[0];
-			}
-			for(Integer[] pos : opponentPieces){
-				vToEnd += pos[1];
-			}
-			val = vToEnd - hToEnd;
-		}
-		else{
-			for(Integer[] pos : opponentPieces){
-				hToEnd += pos[0];
-			}
-			for(Integer[] pos : myPieces){
-				vToEnd += pos[1];
-			}
-			val = hToEnd - vToEnd;
-		}
-		
-		
-		return val;
-	}
-	
 	
 
 	
