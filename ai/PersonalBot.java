@@ -55,32 +55,7 @@ public class PersonalBot implements SliderPlayer{
 		return null;
 	}
 	
-	private boolean canMove(PersonalBoard b){
-		Police check;
-		
-		if(player == 'H'){
-			// For each piece, iterate through its possible moves and check if each is legal 
-			for (Integer[] hPiece : myPieces) {
-				for (PersonalMoves move : PersonalMoves.H_MOVES) {
-					check = new Police(hPiece[0], hPiece[1], b);
-					if (check.hCheck(move))
-						return true;
-				}
-			}
-		}
-		else{
-			// For each piece, iterate through its possible moves and check if each is legal 
-			for (Integer[] hPiece : myPieces) {
-				for (PersonalMoves move : PersonalMoves.V_MOVES) {
-					check = new Police(hPiece[0], hPiece[1], b);
-					if (check.hCheck(move))
-						return true;
-				}
-			}
-		}
-		
-		return false;
-	}
+
 	
 	private void countLegal(PersonalBoard b) {
 		int hCount = 0;
