@@ -44,6 +44,7 @@ public class Police {
 		
 		return false;
 	}
+	
 	public boolean hCheck(PersonalMoves m) {
 		int x = m.getX();
 		int y = m.getY();
