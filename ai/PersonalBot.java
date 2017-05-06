@@ -63,24 +63,47 @@ public class PersonalBot implements SliderPlayer{
 	@Override
 	public Move move() {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
 	
 	private PersonalMoves miniMax(){
-		
+	
+		// to adapt
+		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
 		
 		return null;
 	}
 	
-	private void generateGraph(){
-		
-		
-		
-		
-		
-	}
+
 	
+	private PersonalBoard genNextBoard(Integer[] pos, PersonalMoves m, PersonalBoard b){
+	
+		Police check = new Police(pos[0], pos[1], b);
+		//check if opponent passed
+		if(!(player == 'H' && check.hCheck(m)) ||
+				!(player == 'V' && check.vCheck(m))){
+			passed++;
+			return null;
+		}
+		//possible that we passed before, so set back to 0
+		passed = 0;
+		
+		//update board
+		for(Integer[] p : myPieces){
+			if(p[0] == pos[0] && p[1] == pos[1]){
+				//might have some indexing problems
+				b.setCell(pos[0], pos[1], '+');
+				p[0] += m.getX();
+				p[1] += m.getY();
+				b.setCell(p[0], p[1], player);
+				break;
+			}
+		}
+		
+		return b;
+	}
 	
 	//simple utility function
 	//want own player to be max and opponent to be min
@@ -115,6 +138,11 @@ public class PersonalBot implements SliderPlayer{
 	
 	
 
+	//to update board after own move
+	private void moved(){
+		
+		
+	}
 	
 	private void countLegal(PersonalBoard b) {
 		int hCount = 0;
