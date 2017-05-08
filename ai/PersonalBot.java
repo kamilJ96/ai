@@ -64,18 +64,41 @@ public class PersonalBot implements SliderPlayer{
 	}
 	
 	
-	private int[] miniMax(){
+	private int[] miniMax(int depth){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
 		
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-		
+		boolean myTurn = true;
+		Police check;
 		
 		//create children
-		for(PersonalMoves m : myMoves){
-			
+		if(myTurn){
+			myTurn = false;
+			for(Integer[] p : myPieces){
+				for(PersonalMoves m : myMoves){
+					check = new Police(p[0], p[1], b);
+					if (check.hCheck(m)){
+						children.add(genNextBoard(p, m, b));
+					}
+				}
+			}
 		}
+		else{
+			myTurn = true;
+			for(Integer[] p : opponentPieces){
+				for(PersonalMoves m : opponentMoves){
+					check = new Police(p[0], p[1], b);
+					if (check.hCheck(m)){
+						children.add(genNextBoard(p, m, b));
+					}
+				}
+			}
+		}
+		
+		
+		
 		return null;
 	}
 	
