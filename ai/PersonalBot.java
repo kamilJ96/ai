@@ -10,8 +10,8 @@ public class PersonalBot implements SliderPlayer{
 	private char player;
 	private char opponent;
 	private PersonalBoard b;
-	private ArrayList<Integer[]> myPieces;
-	private ArrayList<Integer[]> opponentPieces;
+	private ArrayList<Integer[]> myPieces, opponentPieces;
+	private PersonalMoves[] myMoves, opponentMoves ;
 	private int passed;
 
 	@Override
@@ -22,9 +22,13 @@ public class PersonalBot implements SliderPlayer{
 		
 		if(player == 'H'){
 			this.opponent = 'V';
+			this.myMoves = PersonalMoves.H_MOVES;
+			this.opponentMoves = PersonalMoves.V_MOVES;
 		}
 		else{
 			this.opponent = 'H';
+			this.myMoves = PersonalMoves.H_MOVES;
+			this.opponentMoves = PersonalMoves.V_MOVES;
 		}
 		
 		this.myPieces = b.getPieces(player);
@@ -37,6 +41,7 @@ public class PersonalBot implements SliderPlayer{
 	@Override
 	public void update(Move move) {
 		PersonalMoves m = PersonalMoves.toPersonalMoves(move);
+		Integer[] pos = {move.i, move.j};
 		//check if opponent passed
 		if(move.d == null){
 			passed++;
@@ -46,16 +51,7 @@ public class PersonalBot implements SliderPlayer{
 		passed = 0;
 		
 		//update board
-		for(Integer[] p : opponentPieces){
-			if(p[0] == move.i && p[1] == move.j){
-				//might have some indexing problems
-				b.setCell(move.i, move.j, '+');
-				p[0] += m.getX();
-				p[1] += m.getY();
-				b.setCell(p[0], p[1], opponent);
-				break;
-			}
-		}
+		b = updateBoard(pos, opponentPieces, opponent, m, b);
 		
 	}
 
@@ -68,11 +64,18 @@ public class PersonalBot implements SliderPlayer{
 	}
 	
 	
-	private PersonalMoves miniMax(){
+	private int[] miniMax(){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
 		
+		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
+		
+		
+		//create children
+		for(PersonalMoves m : myMoves){
+			
+		}
 		return null;
 	}
 	
@@ -91,16 +94,8 @@ public class PersonalBot implements SliderPlayer{
 		passed = 0;
 		
 		//update board
-		for(Integer[] p : myPieces){
-			if(p[0] == pos[0] && p[1] == pos[1]){
-				//might have some indexing problems
-				b.setCell(pos[0], pos[1], '+');
-				p[0] += m.getX();
-				p[1] += m.getY();
-				b.setCell(p[0], p[1], player);
-				break;
-			}
-		}
+		b = updateBoard(pos, myPieces, player, m, b);
+
 		
 		return b;
 	}
@@ -139,9 +134,25 @@ public class PersonalBot implements SliderPlayer{
 	
 
 	//to update board after own move
-	private void moved(){
+	private void nextState(Move move, PersonalMoves m){
 		
 		
+	}
+	
+	
+	private PersonalBoard updateBoard(Integer[] pos, ArrayList<Integer[]> pieces, char player,
+			PersonalMoves m, PersonalBoard b){
+		for(Integer[] p : pieces){
+			if(p[0] == pos[0] && p[1] == pos[1]){
+				//might have some indexing problems
+				b.setCell(pos[0], pos[1], '+');
+				p[0] += m.getX();
+				p[1] += m.getY();
+				b.setCell(p[0], p[1], player);
+				break;
+			}
+		}
+		return b;
 	}
 	
 	private void countLegal(PersonalBoard b) {
