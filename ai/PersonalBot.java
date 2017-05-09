@@ -13,6 +13,7 @@ public class PersonalBot implements SliderPlayer{
 	private ArrayList<Integer[]> myPieces, opponentPieces;
 	private PersonalMoves[] myMoves, opponentMoves ;
 	private int passed;
+	private PersonalMoves next;
 
 	@Override
 	public void init(int dimension, String board, char player) {
@@ -60,22 +61,43 @@ public class PersonalBot implements SliderPlayer{
 	public Move move() {
 		// TODO Auto-generated method stub
 		
+		//call minimax for next move
+		
+		//updAate own board
+		
 		return null;
 	}
 	
 	
-	private int[] miniMax(int depth){
+	private int[] miniMax(int depth, boolean myTurn){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
 		
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-		boolean myTurn = true;
-		Police check;
+		int max = b.getSize() * b.getSize();
+		int min = -b.getSize() * b.getSize();
+		Integer[] pos;
+		PersonalMoves wanted= null;
 		
 		//create children
+		children = createChildren(myTurn);
+		
+		//evaluate each child
+		
+		
+		this.next = wanted;
+		
+		return null;
+	}
+	
+
+	private ArrayList<PersonalBoard> createChildren(boolean myTurn){
+		Police check;
+		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
+		
 		if(myTurn){
-			myTurn = false;
+			
 			for(Integer[] p : myPieces){
 				for(PersonalMoves m : myMoves){
 					check = new Police(p[0], p[1], b);
@@ -86,7 +108,7 @@ public class PersonalBot implements SliderPlayer{
 			}
 		}
 		else{
-			myTurn = true;
+			
 			for(Integer[] p : opponentPieces){
 				for(PersonalMoves m : opponentMoves){
 					check = new Police(p[0], p[1], b);
@@ -97,12 +119,8 @@ public class PersonalBot implements SliderPlayer{
 			}
 		}
 		
-		
-		
-		return null;
+		return children;
 	}
-	
-
 	
 	private PersonalBoard genNextBoard(Integer[] pos, PersonalMoves m, PersonalBoard b){
 	
