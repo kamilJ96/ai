@@ -11,7 +11,7 @@ public class PersonalBot implements SliderPlayer{
 	private char opponent;
 	private PersonalBoard b;
 	private ArrayList<Integer[]> myPieces, opponentPieces;
-	private PersonalMoves[] myMoves, opponentMoves ;
+	private PersonalMoves[] myMoves, opponentMoves;
 	private int passed;
 	private PersonalMoves next;
 
@@ -28,14 +28,13 @@ public class PersonalBot implements SliderPlayer{
 		}
 		else{
 			this.opponent = 'H';
-			this.myMoves = PersonalMoves.H_MOVES;
-			this.opponentMoves = PersonalMoves.V_MOVES;
+			this.myMoves = PersonalMoves.V_MOVES;
+			this.opponentMoves = PersonalMoves.H_MOVES;
 		}
 		
 		this.myPieces = b.getPieces(player);
 		this.opponentPieces = b.getPieces(opponent);
 		countLegal(b);
-		
 	}
 
 	//update move w.r.t other player
@@ -52,8 +51,7 @@ public class PersonalBot implements SliderPlayer{
 		passed = 0;
 		
 		//update board
-		b = updateBoard(pos, opponentPieces, opponent, m, b);
-		
+		updateBoard(pos, opponent, m);
 	}
 
 	//the strategy

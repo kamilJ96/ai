@@ -1,6 +1,7 @@
 /* Kamil Jakrzewski kjakrzewski
  * Ai-Linh Tran taal */
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PersonalBoard {
 
@@ -12,49 +13,6 @@ public class PersonalBoard {
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
 
-//	public PersonalBoard(ArrayList<String> args, int size) {
-//		hPieces = new ArrayList<Integer[]>();
-//		vPieces = new ArrayList<Integer[]>();
-//
-//		this.size = size;
-//		this.board = populate(args);
-//	}
-//
-//	private String[][] populate(ArrayList<String> args) {
-//		String[][] board = new String[size][size];
-//		int x = 0;
-//		int y = size;
-//		int pos = 0;
-//
-//		for (String s : args) {
-//			// Disregard the first line in args
-//
-//			// Move to the next row
-//			// populate board from higher count since bottom-left = (0,0)
-//			// and top-right = (N-1, N-1)
-//			if (pos % size == 0) {
-//				y--;
-//				x = 0;
-//			}
-//
-//			board[y][x] = s;
-//
-//			// Keep track of where each piece is on the board
-//			if (s.equals("H")) {
-//				Integer[] coords = { x, y };
-//				hPieces.add(coords);
-//			} else if (s.equals("V")) {
-//				Integer[] coords = { x, y };
-//				vPieces.add(coords);
-//			}
-//
-//			x++;
-//			pos++;
-//		}
-//
-//		return board;
-//	}
-	
 	public PersonalBoard(String args, int size) {
 		hPieces = new ArrayList<Integer[]>();
 		vPieces = new ArrayList<Integer[]>();
@@ -108,14 +66,6 @@ public class PersonalBoard {
 		return this.size;
 	}
 
-//	public String[][] getBoard() {
-//		return this.board;
-//	}
-//
-//	public String getCell(int x, int y) {
-//		return board[y][x];
-//	}
-	
 	public char[][] getBoard() {
 		return this.board;
 	}
@@ -167,6 +117,78 @@ public class PersonalBoard {
 		}
 		
 		
+	}
+	
+	public void updateBoard(Integer[] pos, char player, PersonalMoves m){
+        Iterator<Integer[]> pieceIter;
+        if (player == 'H')
+            pieceIter = hPieces.iterator();
+        else
+            pieceIter = vPieces.iterator();
+
+        while (pieceIter.hasNext()) {
+            Integer[] p = pieceIter.next();
+            if(p[0] == pos[0] && p[1] == pos[1]){
+                p[0] += m.getX();
+                p[1] += m.getY();
+                break;
+            }
+        }
+
+        // Update the previous cell, and only the next cell if the player's
+        // piece is still on the board
+        if (p[0] < this.size && p[1] < this.size)
+            this.setCell(p[0], p[1], player);
+        this.setCell(pos[0], pos[1], '+');
+    }
+	
+    private ArrayList<PersonalBoard> createChildren(boolean myTurn){
+		Police check;
+		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
+		
+		if(myTurn){
+			
+			for(Integer[] p : myPieces){
+				for(PersonalMoves m : myMoves){
+					check = new Police(p[0], p[1], b);
+					if (check.hCheck(m)){
+						children.add(genNextBoard(p, m, b));
+					}
+				}
+			}
+		}
+		else{
+			
+			for(Integer[] p : opponentPieces){
+				for(PersonalMoves m : opponentMoves){
+					check = new Police(p[0], p[1], b);
+					if (check.hCheck(m)){
+						children.add(genNextBoard(p, m, b));
+					}
+				}
+			}
+		}
+		
+		return children;
+	}
+	
+	private PersonalBoard genNextBoard(Integer[] pos, PersonalMoves m, PersonalBoard b){
+	
+		Police check = new Police(pos[0], pos[1], b);
+		//check if opponent passed
+		if(!(player == 'H' && check.hCheck(m)) ||
+				!(player == 'V' && check.vCheck(m))){
+			passed++;
+			return null;
+		}
+		//possible that we passed before, so set back to 0
+		passed = 0;
+		
+		//update board
+		b = updateBoard(pos, myPieces, player, m, b);
+
+		
+		return b;
 	}
 
 }
