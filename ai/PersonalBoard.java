@@ -9,6 +9,8 @@ public class PersonalBoard {
 	private char[][] board;
 	private int size;
 	private int miniMaxVal;
+	private Integer[] movedPiece;
+	private PersonalMoves dir;
 
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
@@ -90,6 +92,22 @@ public class PersonalBoard {
 	
 	public void setMiniMaxVal(int val){
 		miniMaxVal = val;
+	}
+	
+	public void setMovedPiece(Integer[] piece){
+		movedPiece = piece;
+	}
+	
+	public Integer[] getMovedPiece(){
+		return movedPiece;
+	}
+	
+	public void setDir(PersonalMoves m){
+		dir = m;
+	}
+	
+	public PersonalMoves getDir(){
+		return dir;
 	}
 	
 	public void makeMove(int[] piece, PersonalMoves dir, char player){
