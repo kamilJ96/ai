@@ -8,52 +8,13 @@ public class PersonalBoard {
 	private char[][] board;
 	private int size;
 	private int miniMaxVal;
+	private Integer[] movedPiece;
+	private PersonalMoves dir;
 
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
 
-//	public PersonalBoard(ArrayList<String> args, int size) {
-//		hPieces = new ArrayList<Integer[]>();
-//		vPieces = new ArrayList<Integer[]>();
-//
-//		this.size = size;
-//		this.board = populate(args);
-//	}
-//
-//	private String[][] populate(ArrayList<String> args) {
-//		String[][] board = new String[size][size];
-//		int x = 0;
-//		int y = size;
-//		int pos = 0;
-//
-//		for (String s : args) {
-//			// Disregard the first line in args
-//
-//			// Move to the next row
-//			// populate board from higher count since bottom-left = (0,0)
-//			// and top-right = (N-1, N-1)
-//			if (pos % size == 0) {
-//				y--;
-//				x = 0;
-//			}
-//
-//			board[y][x] = s;
-//
-//			// Keep track of where each piece is on the board
-//			if (s.equals("H")) {
-//				Integer[] coords = { x, y };
-//				hPieces.add(coords);
-//			} else if (s.equals("V")) {
-//				Integer[] coords = { x, y };
-//				vPieces.add(coords);
-//			}
-//
-//			x++;
-//			pos++;
-//		}
-//
-//		return board;
-//	}
+
 	
 	public PersonalBoard(String args, int size) {
 		hPieces = new ArrayList<Integer[]>();
@@ -140,6 +101,22 @@ public class PersonalBoard {
 	
 	public void setMiniMaxVal(int val){
 		miniMaxVal = val;
+	}
+	
+	public void setMovedPiece(Integer[] piece){
+		movedPiece = piece;
+	}
+	
+	public Integer[] getMovedPiece(){
+		return movedPiece;
+	}
+	
+	public void setDir(PersonalMoves m){
+		dir = m;
+	}
+	
+	public PersonalMoves getDir(){
+		return dir;
 	}
 	
 	public void makeMove(int[] piece, PersonalMoves dir, char player){
