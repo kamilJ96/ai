@@ -160,53 +160,35 @@ public class PersonalBoard {
         this.setCell(pos[0], pos[1], '+');
     }
 	
-    private ArrayList<PersonalBoard> createChildren(boolean myTurn){
+	/** Generate a list of possible moves for each piece */
+	public ArrayList<PersonalBoard> createChildren(char player, PersonalBoard b) {
 		Police check;
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-		
-		if(myTurn){
-			
-			for(Integer[] p : myPieces){
-				for(PersonalMoves m : myMoves){
+
+		if (player == 'H') {
+			for (Integer[] p : hPieces) {
+				for (PersonalMoves m : PersonalMoves.H_MOVES) {
 					check = new Police(p[0], p[1], b);
-					if (check.hCheck(m)){
-						children.add(genNextBoard(p, m, b));
+					if (check.hCheck(m)) {
+						PersonalBoard newBoard = b;
+						newBoard.updateBoard(p, player, m);
+						children.add(newBoard);
+					}
+				}
+			}
+		} else {
+			for (Integer[] p : vPieces) {
+				for (PersonalMoves m : PersonalMoves.V_MOVES) {
+					check = new Police(p[0], p[1], b);
+					if (check.vCheck(m)) {
+						PersonalBoard newBoard = b;
+						newBoard.updateBoard(p, player, m);
+						children.add(newBoard);
 					}
 				}
 			}
 		}
-		else{
-			
-			for(Integer[] p : opponentPieces){
-				for(PersonalMoves m : opponentMoves){
-					check = new Police(p[0], p[1], b);
-					if (check.hCheck(m)){
-						children.add(genNextBoard(p, m, b));
-					}
-				}
-			}
-		}
-		
+
 		return children;
 	}
-	
-	private PersonalBoard genNextBoard(Integer[] pos, PersonalMoves m, PersonalBoard b){
-	
-		Police check = new Police(pos[0], pos[1], b);
-		//check if opponent passed
-		if(!(player == 'H' && check.hCheck(m)) ||
-				!(player == 'V' && check.vCheck(m))){
-			passed++;
-			return null;
-		}
-		//possible that we passed before, so set back to 0
-		passed = 0;
-		
-		//update board
-		b = updateBoard(pos, myPieces, player, m, b);
-
-		
-		return b;
-	}
-
 }
