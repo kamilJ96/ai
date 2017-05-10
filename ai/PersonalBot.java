@@ -34,7 +34,6 @@ public class PersonalBot implements SliderPlayer{
 		
 		this.myPieces = b.getPieces(player);
 		this.opponentPieces = b.getPieces(opponent);
-		countLegal(b);
 	}
 
 	//update move w.r.t other player
@@ -51,7 +50,7 @@ public class PersonalBot implements SliderPlayer{
 		passed = 0;
 		
 		//update board
-		updateBoard(pos, opponent, m);
+		b.updateBoard(pos, opponent, m);
 	}
 
 	//the strategy
@@ -79,7 +78,7 @@ public class PersonalBot implements SliderPlayer{
 		PersonalMoves wanted= null;
 		
 		//create children
-		children = createChildren(myTurn);
+		children = b.createChildren(player, b);
 		
 		//evaluate each child
 		
@@ -88,57 +87,9 @@ public class PersonalBot implements SliderPlayer{
 		
 		return null;
 	}
+
 	
 
-	private ArrayList<PersonalBoard> createChildren(boolean myTurn){
-		Police check;
-		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-		
-		if(myTurn){
-			
-			for(Integer[] p : myPieces){
-				for(PersonalMoves m : myMoves){
-					check = new Police(p[0], p[1], b);
-					if (check.hCheck(m)){
-						children.add(genNextBoard(p, m, b));
-					}
-				}
-			}
-		}
-		else{
-			
-			for(Integer[] p : opponentPieces){
-				for(PersonalMoves m : opponentMoves){
-					check = new Police(p[0], p[1], b);
-					if (check.hCheck(m)){
-						children.add(genNextBoard(p, m, b));
-					}
-				}
-			}
-		}
-		
-		return children;
-	}
-	
-	private PersonalBoard genNextBoard(Integer[] pos, PersonalMoves m, PersonalBoard b){
-	
-		Police check = new Police(pos[0], pos[1], b);
-		//check if opponent passed
-		if(!(player == 'H' && check.hCheck(m)) ||
-				!(player == 'V' && check.vCheck(m))){
-			passed++;
-			return null;
-		}
-		//possible that we passed before, so set back to 0
-		passed = 0;
-		
-		//update board
-		b = updateBoard(pos, myPieces, player, m, b);
-
-		
-		return b;
-	}
-	
 	//simple utility function
 	//want own player to be max and opponent to be min
 	//if opponent has more moves to win, then own player is max
@@ -169,54 +120,6 @@ public class PersonalBot implements SliderPlayer{
 		
 		return val;
 	}
-	
-	
-
-	//to update board after own move
-	private void nextState(Move move, PersonalMoves m){
 		
-		
-	}
 	
-	
-	private PersonalBoard updateBoard(Integer[] pos, ArrayList<Integer[]> pieces, char player,
-			PersonalMoves m, PersonalBoard b){
-		for(Integer[] p : pieces){
-			if(p[0] == pos[0] && p[1] == pos[1]){
-				//might have some indexing problems
-				b.setCell(pos[0], pos[1], '+');
-				p[0] += m.getX();
-				p[1] += m.getY();
-				b.setCell(p[0], p[1], player);
-				break;
-			}
-		}
-		return b;
-	}
-	
-	private void countLegal(PersonalBoard b) {
-		int hCount = 0;
-		int vCount = 0;
-		Police check;
-
-		// For each piece, iterate through its possible moves and check if each is legal 
-		for (Integer[] hPiece : myPieces) {
-			for (PersonalMoves move : PersonalMoves.H_MOVES) {
-				check = new Police(hPiece[0], hPiece[1], b);
-				if (check.hCheck(move))
-					hCount++;
-			}
-		}
-
-		for (Integer[] vPiece : opponentPieces) {
-			for (PersonalMoves move : PersonalMoves.V_MOVES) {
-				check = new Police(vPiece[0], vPiece[1], b);
-				if (check.vCheck(move))
-					vCount++;
-			}
-		}
-
-		System.out.println(hCount);
-		System.out.println(vCount);
-	}
 }

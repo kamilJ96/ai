@@ -109,33 +109,7 @@ public class PersonalBoard {
 	public PersonalMoves getDir(){
 		return dir;
 	}
-	
-	public void makeMove(int[] piece, PersonalMoves dir, char player){
-		board[piece[0]][piece[1]] = '+';
-		board[piece[0]+dir.getX()][piece[1]+dir.getY()] = player;
-		
-		//update pieces list
-		if(player =='H'){
-			for(Integer[] p : hPieces){
-				if(p[0] == piece[0] && p[1] == piece[1]){
-					p[0] += dir.getX();
-					p[1] += dir.getY();
-					break;
-				}
-			}
-		}
-		else{
-			for(Integer[] p : vPieces){
-				if(p[0] == piece[0] && p[1] == piece[1]){
-					p[0] += dir.getX();
-					p[1] += dir.getY();
-					break;
-				}				
-			}
-		}
-		
-		
-	}
+
 	
 	public void updateBoard(Integer[] pos, char player, PersonalMoves m){
         Iterator<Integer[]> pieceIter;
@@ -149,15 +123,17 @@ public class PersonalBoard {
             if(p[0] == pos[0] && p[1] == pos[1]){
                 p[0] += m.getX();
                 p[1] += m.getY();
+                
+                // Update the previous cell, and only the next cell if the player's
+                // piece is still on the board
+                if (p[0] < this.size && p[1] < this.size)
+                    this.setCell(p[0], p[1], player);
+                this.setCell(pos[0], pos[1], '+');
                 break;
             }
         }
 
-        // Update the previous cell, and only the next cell if the player's
-        // piece is still on the board
-        if (p[0] < this.size && p[1] < this.size)
-            this.setCell(p[0], p[1], player);
-        this.setCell(pos[0], pos[1], '+');
+
     }
 	
 	/** Generate a list of possible moves for each piece */
