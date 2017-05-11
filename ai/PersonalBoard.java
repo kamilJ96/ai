@@ -148,6 +148,8 @@ public class PersonalBoard {
 					if (check.hCheck(m)) {
 						PersonalBoard newBoard = b;
 						newBoard.updateBoard(p, player, m);
+						newBoard.setDir(m);
+						newBoard.setMovedPiece(p);
 						children.add(newBoard);
 					}
 				}
@@ -159,6 +161,8 @@ public class PersonalBoard {
 					if (check.vCheck(m)) {
 						PersonalBoard newBoard = b;
 						newBoard.updateBoard(p, player, m);
+						newBoard.setDir(m);
+						newBoard.setMovedPiece(p);
 						children.add(newBoard);
 					}
 				}
