@@ -1,7 +1,11 @@
+package bleh;
+
 /* Kamil Jakrzewski kjakrzewski
  * Ai-Linh Tran taal */
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import aiproj.slider.Move;
 
 public class PersonalBoard {
 
@@ -10,6 +14,7 @@ public class PersonalBoard {
 	private int size;
 	private int miniMaxVal;
 	private Integer[] movedPiece;
+	private Move movePiece;
 	private PersonalMoves dir;
 
 	private ArrayList<Integer[]> hPieces;
@@ -102,6 +107,14 @@ public class PersonalBoard {
 		return movedPiece;
 	}
 	
+	public void setMovePiece(Move move) {
+		movePiece = move;
+	}
+	
+	public Move getMovePiece() {
+		return movePiece;
+	}
+	
 	public void setDir(PersonalMoves m){
 		dir = m;
 	}
@@ -128,6 +141,8 @@ public class PersonalBoard {
                 // piece is still on the board
                 if (p[0] < this.size && p[1] < this.size)
                     this.setCell(p[0], p[1], player);
+                else
+                    pieceIter.remove();
                 this.setCell(pos[0], pos[1], '+');
                 break;
             }
@@ -151,6 +166,8 @@ public class PersonalBoard {
 						newBoard.setDir(m);
 						newBoard.setMovedPiece(p);
 						children.add(newBoard);
+						
+						newBoard.setMovePiece(m.toMove(p, m));
 					}
 				}
 			}
