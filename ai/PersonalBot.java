@@ -73,7 +73,7 @@ public class PersonalBot implements SliderPlayer{
 		
 		int bestScore;
 		int currScore;
-		Move bestMove = null;
+		Integer[] bestMove = null;
 		
 		// If it's our turn we want to maximize our score
 		if (piece == player)
@@ -94,20 +94,20 @@ public class PersonalBot implements SliderPlayer{
 					currScore = miniMax(depth - 1, opponent)[0];
 					if (currScore > bestScore) {
 						bestScore = currScore;
-						bestMove = child.getMovePiece();
+						bestMove = child.getMovedPiece();
 					}
 				}
 				else {
 					currScore = miniMax(depth - 1, player)[0];
 					if (currScore < bestScore) {
 						bestScore = currScore;
-						bestMove = child.getMovePiece();
+						bestMove = child.getMovedPiece();
 					}
 				}
 			}
 		}
 		
-		return new int[] {bestScore, bestMove.i, bestMove.j};
+		return new int[] {bestScore, bestMove[0], bestMove[1]};
 	}
 
 	

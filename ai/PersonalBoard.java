@@ -14,7 +14,6 @@ public class PersonalBoard {
 	private int size;
 	private int miniMaxVal;
 	private Integer[] movedPiece;
-	private Move movePiece;
 	private PersonalMoves dir;
 
 	private ArrayList<Integer[]> hPieces;
@@ -107,14 +106,6 @@ public class PersonalBoard {
 		return movedPiece;
 	}
 	
-	public void setMovePiece(Move move) {
-		movePiece = move;
-	}
-	
-	public Move getMovePiece() {
-		return movePiece;
-	}
-	
 	public void setDir(PersonalMoves m){
 		dir = m;
 	}
@@ -166,8 +157,6 @@ public class PersonalBoard {
 						newBoard.setDir(m);
 						newBoard.setMovedPiece(p);
 						children.add(newBoard);
-						
-						newBoard.setMovePiece(m.toMove(p, m));
 					}
 				}
 			}
