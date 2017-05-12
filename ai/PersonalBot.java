@@ -1,3 +1,5 @@
+package bleh;
+
 /* Kamil Jakrzewski kjakrzewski
  * Ai-Linh Tran taal */
 
@@ -11,9 +13,7 @@ public class PersonalBot implements SliderPlayer{
 	private char opponent;
 	private PersonalBoard b;
 	private ArrayList<Integer[]> myPieces, opponentPieces;
-	private PersonalMoves[] myMoves, opponentMoves;
 	private int passed;
-	private PersonalMoves next;
 
 	@Override
 	public void init(int dimension, String board, char player) {
@@ -23,13 +23,9 @@ public class PersonalBot implements SliderPlayer{
 		
 		if(player == 'H'){
 			this.opponent = 'V';
-			this.myMoves = PersonalMoves.H_MOVES;
-			this.opponentMoves = PersonalMoves.V_MOVES;
 		}
 		else{
 			this.opponent = 'H';
-			this.myMoves = PersonalMoves.V_MOVES;
-			this.opponentMoves = PersonalMoves.H_MOVES;
 		}
 		
 		this.myPieces = b.getPieces(player);
@@ -66,7 +62,7 @@ public class PersonalBot implements SliderPlayer{
 	}
 	
 	
-	private int[] miniMax(int depth, boolean myTurn){
+	private int[] miniMax(int depth, char piece){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
@@ -74,18 +70,44 @@ public class PersonalBot implements SliderPlayer{
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
 		int max = b.getSize() * b.getSize();
 		int min = -b.getSize() * b.getSize();
-		Integer[] pos;
-		PersonalMoves wanted= null;
+		
+		int bestScore;
+		int currScore;
+		Move bestMove = null;
+		
+		// If it's our turn we want to maximize our score
+		if (piece == player)
+			bestScore = max;
+		else
+			bestScore = min;
 		
 		//create children
 		children = b.createChildren(player, b);
 		
-		//evaluate each child
+		// Check if we've reached our depth, or a terminal node
+		// Else recurse to the next level
+		if (depth == 0 || children.isEmpty())
+			bestScore = utilFn();
+		else {
+			for (PersonalBoard child : children) {
+				if (piece == player) {
+					currScore = miniMax(depth - 1, opponent)[0];
+					if (currScore > bestScore) {
+						bestScore = currScore;
+						bestMove = child.getMovePiece();
+					}
+				}
+				else {
+					currScore = miniMax(depth - 1, player)[0];
+					if (currScore < bestScore) {
+						bestScore = currScore;
+						bestMove = child.getMovePiece();
+					}
+				}
+			}
+		}
 		
-		
-		this.next = wanted;
-		
-		return null;
+		return new int[] {bestScore, bestMove.i, bestMove.j};
 	}
 
 	
