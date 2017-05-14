@@ -7,14 +7,17 @@ import aiproj.slider.*;
 import java.util.ArrayList;
 
 public class PersonalBot implements SliderPlayer{
-
-
 	private char player;
 	private char opponent;
+	
 	private PersonalBoard b;
 	private ArrayList<Integer[]> myPieces, opponentPieces;
+	
 	private int passed;
 
+	private final int WEIGHT_PCES_RMVD = 10;
+	private final int WEIGHT_PCES_END = 10;
+	
 	@Override
 	public void init(int dimension, String board, char player) {
 		this.player = player;
@@ -87,7 +90,7 @@ public class PersonalBot implements SliderPlayer{
 		// Check if we've reached our depth, or a terminal node
 		// Else recurse to the next level
 		if (depth == 0 || children.isEmpty())
-			bestScore = utilFn();
+			bestScore = evalBoard(b, piece);
 		else {
 			for (PersonalBoard child : children) {
 				if (piece == player) {
@@ -141,6 +144,20 @@ public class PersonalBot implements SliderPlayer{
 		
 		
 		return val;
+	}
+	
+	private int evalBoard(PersonalBoard b, char piece) {
+		int score = 0;
+		int numPieces = b.getSize() - 1;
+		
+		// Add to our score for every piece we've removed from the board
+		score += (numPieces - b.getPieces(piece).size()) * WEIGHT_PCES_RMVD;
+		
+		// Add to our score for every piece that's closer to the goal state
+		// The closer they are to their respective end, the more score it gets
+		// Possibly just use the row or column index of the piece as its score
+		
+		return score;
 	}
 		
 	
