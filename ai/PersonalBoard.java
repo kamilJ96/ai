@@ -12,6 +12,7 @@ public class PersonalBoard {
 
 	private char[][] board;
 	private int size;
+	private String args;
 	private int miniMaxVal;
 	private Integer[] movedPiece;
 	private PersonalMoves dir;
@@ -25,8 +26,15 @@ public class PersonalBoard {
 		vPieces = new ArrayList<Integer[]>();
 
 		this.size = size;
+		this.args = args;
 		this.board = populate(args);
 		this.miniMaxVal = 0;
+	}
+	
+	//copy constructor
+	public PersonalBoard(PersonalBoard b) {
+		this(b.getArgs(), b.getSize());
+		
 	}
 
 	private char[][] populate(String args) {
@@ -65,6 +73,10 @@ public class PersonalBoard {
 
 	public int getSize() {
 		return this.size;
+	}
+	
+	public String getArgs() {
+		return this.args;
 	}
 
 	public char[][] getBoard() {
