@@ -173,7 +173,7 @@ public class PersonalBoard {
 					check = new Police(p[0], p[1], b);
 					if (check.hCheck(m)) {
 						System.out.println("Move H at {" + p[0] + "," + p[1] + "}");
-						PersonalBoard newBoard = b;
+						PersonalBoard newBoard = new PersonalBoard(b);
 						newBoard.updateBoard(p, player, m);
 						newBoard.setMove(m.toMove(p, m));
 						children.add(newBoard);
@@ -185,7 +185,7 @@ public class PersonalBoard {
 				for (PersonalMoves m : PersonalMoves.V_MOVES) {
 					check = new Police(p[0], p[1], b);
 					if (check.vCheck(m)) {
-						PersonalBoard newBoard = b;
+						PersonalBoard newBoard = new PersonalBoard(b);
 						newBoard.updateBoard(p, player, m);
 						newBoard.setMove(m.toMove(p, m));
 						children.add(newBoard);
