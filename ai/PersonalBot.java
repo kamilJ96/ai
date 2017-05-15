@@ -45,7 +45,7 @@ public class PersonalBot implements SliderPlayer{
 	//the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player);
+		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
 		Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
 		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
 		
@@ -53,7 +53,7 @@ public class PersonalBot implements SliderPlayer{
 	}
 	
 	
-	private ScoredMove miniMax(int depth, char piece){
+	private ScoredMove miniMax(int depth, char piece, int alpha, int beta){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
@@ -82,16 +82,20 @@ public class PersonalBot implements SliderPlayer{
 		else {
 			for (PersonalBoard child : children) {
 				if (piece == player) {
-					currScore = miniMax(depth - 1, opponent).getScore();
-					if (currScore > bestScore) {
-						bestScore = currScore;
+					currScore = miniMax(depth - 1, opponent, alpha, beta).getScore();
+//					if (currScore > bestScore) {
+//					bestScore = currScore;
+					if(currScore > alpha) {
+						alpha = currScore;
 						bestMove.setMove(child.getMove());
 					}	
 				}
 				else {
-					currScore = miniMax(depth - 1, player).getScore();
-					if (currScore < bestScore) {
-						bestScore = currScore;
+					currScore = miniMax(depth - 1, player, alpha, beta).getScore();
+//					if (currScore < bestScore) {
+//						bestScore = currScore;
+					if(currScore < beta) {
+						beta = currScore;
 						bestMove.setMove(child.getMove());
 					}
 				}
