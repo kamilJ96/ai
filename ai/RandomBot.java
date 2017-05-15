@@ -60,7 +60,7 @@ public class RandomBot implements SliderPlayer{
 		if(player == 'H' && check.hCheck(PersonalMoves.H_MOVES[rndMove])){
 			b.updateBoard(myPieces.get(rndPiece), player, PersonalMoves.H_MOVES[rndMove]);
 		}
-		else if(player == 'V' && check.hCheck(PersonalMoves.V_MOVES[rndMove])){
+		else if(player == 'V' && check.vCheck(PersonalMoves.V_MOVES[rndMove])){
 			b.updateBoard(myPieces.get(rndPiece), player, PersonalMoves.V_MOVES[rndMove]);
 		}
 		else {
