@@ -9,12 +9,12 @@ import aiproj.slider.Move;
 
 public class PersonalBoard {
 
-//	private String[][] board;
 	private char[][] board;
 	private int size;
 	private int miniMaxVal;
 	private Integer[] movedPiece;
 	private PersonalMoves dir;
+	private Move moveMade;
 
 	private ArrayList<Integer[]> hPieces;
 	private ArrayList<Integer[]> vPieces;
@@ -102,6 +102,14 @@ public class PersonalBoard {
 		movedPiece = piece;
 	}
 	
+	public void setMove(Move m){
+		this.moveMade = m;
+	}
+	
+	public Move getMove(){
+		return moveMade;
+	}
+	
 	public Integer[] getMovedPiece(){
 		return movedPiece;
 	}
@@ -154,8 +162,7 @@ public class PersonalBoard {
 					if (check.hCheck(m)) {
 						PersonalBoard newBoard = b;
 						newBoard.updateBoard(p, player, m);
-						newBoard.setDir(m);
-						newBoard.setMovedPiece(p);
+						newBoard.setMove(m.toMove(p, m));
 						children.add(newBoard);
 					}
 				}
@@ -167,8 +174,7 @@ public class PersonalBoard {
 					if (check.vCheck(m)) {
 						PersonalBoard newBoard = b;
 						newBoard.updateBoard(p, player, m);
-						newBoard.setDir(m);
-						newBoard.setMovedPiece(p);
+						newBoard.setMove(m.toMove(p, m));
 						children.add(newBoard);
 					}
 				}
