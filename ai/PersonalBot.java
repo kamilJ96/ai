@@ -31,18 +31,20 @@ public class PersonalBot implements SliderPlayer{
 	//update move w.r.t other player
 	@Override
 	public void update(Move move) {
+		if(move == null)
+			return;
+		
 		PersonalMoves m = PersonalMoves.toPersonalMoves(move);
 		Integer[] pos = {move.i, move.j};
 		
 		// Only update board if opponent didn't pass
-		if(move.d != null)
-			b.updateBoard(pos, opponent, m);
+		b.updateBoard(pos, opponent, m);
 	}
 
 	//the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(4, this.player);
+		ScoredMove bestMove = miniMax(2, this.player);
 		
 		return bestMove.getMove();
 	}

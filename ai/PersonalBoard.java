@@ -4,6 +4,7 @@ package bleh;
  * Ai-Linh Tran taal */
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import aiproj.slider.Move;
 
@@ -30,14 +31,12 @@ public class PersonalBoard {
 
 	private char[][] populate(String args) {
 		char[][] board = new char[size][size];
-		char[] argsAsChar;
-		char s;
+		Scanner scan = new Scanner(args);
 		int x = 0;
 		int y = size;
 		int pos = 0;
 
-		for(int i=0; i<args.length(); i++){
-
+		while (scan.hasNext()){
 			// Move to the next row
 			// populate board from higher count since bottom-left = (0,0)
 			// and top-right = (N-1, N-1)
@@ -45,12 +44,8 @@ public class PersonalBoard {
 				y--;
 				x = 0;
 			}
-
-			argsAsChar = args.toCharArray();
-			s = argsAsChar[i];
 			
-			if(s == '\n'|| s == ' ') continue;
-			
+			char s = scan.next().charAt(0);
 			board[y][x] = s;
 			// Keep track of where each piece is on the board
 			if (s == 'H') {
@@ -81,6 +76,7 @@ public class PersonalBoard {
 	}
 	
 	public void setCell(int x, int y, char value) {
+		System.out.println("setting pos {" + x + ", " + y + "} to " + value);
 		board[y][x] = value;
 	}
 
@@ -133,12 +129,16 @@ public class PersonalBoard {
         while (pieceIter.hasNext()) {
             Integer[] p = pieceIter.next();
             if(p[0] == pos[0] && p[1] == pos[1]){
+                System.out.println("pos = {"+pos[0]+","+pos[1]+"}");
+
                 p[0] += m.getX();
                 p[1] += m.getY();
+                System.out.println("pos after changing p = {"+pos[0]+","+pos[1]+"}");
+
                 
                 // Update the previous cell, and only the next cell if the player's
                 // piece is still on the board
-                if (p[0] < this.size && p[1] < this.size)
+                if (p[0] < this.size && p[1] < this.size)	
                     this.setCell(p[0], p[1], player);
                 else
                     pieceIter.remove();
@@ -160,6 +160,7 @@ public class PersonalBoard {
 				for (PersonalMoves m : PersonalMoves.H_MOVES) {
 					check = new Police(p[0], p[1], b);
 					if (check.hCheck(m)) {
+						System.out.println("Move H at {" + p[0] + "," + p[1] + "}");
 						PersonalBoard newBoard = b;
 						newBoard.updateBoard(p, player, m);
 						newBoard.setMove(m.toMove(p, m));
