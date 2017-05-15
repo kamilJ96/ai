@@ -55,7 +55,7 @@ public class RandomBot implements SliderPlayer{
 		int rndPiece = ThreadLocalRandom.current().nextInt(0, myPieces.size());
 		Police check = new Police(myPieces.get(rndPiece)[0], myPieces.get(rndPiece)[1], b);
 		
-		Move m;
+		Move m = null;
 		
 		if(player == 'H' && check.hCheck(PersonalMoves.H_MOVES[rndMove])){
 			b.updateBoard(myPieces.get(rndPiece), player, PersonalMoves.H_MOVES[rndMove]);
