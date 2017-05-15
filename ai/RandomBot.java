@@ -46,10 +46,14 @@ public class RandomBot implements SliderPlayer{
 	//the strategy
 	@Override
 	public Move move() {
-		return randomMove();
+		ArrayList<Integer> mvs = new ArrayList<Integer>();
+		mvs.add(0);
+		mvs.add(1);
+		mvs.add(2);
+		return randomMove(mvs);
 	}
 	
-	private Move randomMove() {
+	private Move randomMove(ArrayList<Integer> mvs) {
 		ArrayList<Integer[]> myPieces = this.b.getPieces(player);
 		int rndMove = ThreadLocalRandom.current().nextInt(0, 3);
 		int rndPiece = ThreadLocalRandom.current().nextInt(0, myPieces.size());
@@ -57,6 +61,9 @@ public class RandomBot implements SliderPlayer{
 		
 		Move m = null;
 		
+		if(mvs.isEmpty()) {
+			return m;
+		}
 		if(player == 'H' && check.hCheck(PersonalMoves.H_MOVES[rndMove])){
 			b.updateBoard(myPieces.get(rndPiece), player, PersonalMoves.H_MOVES[rndMove]);
 			m = PersonalMoves.H_MOVES[rndMove].toMove(myPieces.get(rndPiece), PersonalMoves.H_MOVES[rndMove]);
@@ -66,7 +73,8 @@ public class RandomBot implements SliderPlayer{
 			m = PersonalMoves.V_MOVES[rndMove].toMove(myPieces.get(rndPiece), PersonalMoves.V_MOVES[rndMove]);
 		}
 		else {
-			randomMove();
+			mvs.remove(rndMove);
+			randomMove(mvs);
 		}
 		
 		return m;
