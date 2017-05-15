@@ -88,7 +88,6 @@ public class PersonalBoard {
 	}
 	
 	public void setCell(int x, int y, char value) {
-		System.out.println("setting pos {" + x + ", " + y + "} to " + value);
 		board[y][x] = value;
 	}
 
@@ -98,32 +97,12 @@ public class PersonalBoard {
 		return vPieces;
 	}
 	
-	public int getMiniMaxVal(){
-		return miniMaxVal;
-	}
-	
-	public void setMiniMaxVal(int val){
-		miniMaxVal = val;
-	}
-	
-	public void setMovedPiece(Integer[] piece){
-		movedPiece = piece;
-	}
-	
 	public void setMove(Move m){
 		this.moveMade = m;
 	}
 	
 	public Move getMove(){
 		return moveMade;
-	}
-	
-	public Integer[] getMovedPiece(){
-		return movedPiece;
-	}
-	
-	public void setDir(PersonalMoves m){
-		dir = m;
 	}
 	
 	public PersonalMoves getDir(){
@@ -141,12 +120,8 @@ public class PersonalBoard {
         while (pieceIter.hasNext()) {
             Integer[] p = pieceIter.next();
             if(p[0] == pos[0] && p[1] == pos[1]){
-                System.out.println("pos = {"+pos[0]+","+pos[1]+"}");
-
                 p[0] += m.getX();
                 p[1] += m.getY();
-                System.out.println("pos after changing p = {"+pos[0]+","+pos[1]+"}");
-
                 
                 // Update the previous cell, and only the next cell if the player's
                 // piece is still on the board
@@ -172,7 +147,6 @@ public class PersonalBoard {
 				for (PersonalMoves m : PersonalMoves.H_MOVES) {
 					check = new Police(p[0], p[1], b);
 					if (check.hCheck(m)) {
-						System.out.println("Move H at {" + p[0] + "," + p[1] + "}");
 						PersonalBoard newBoard = new PersonalBoard(b);
 						newBoard.updateBoard(p, player, m);
 						newBoard.setMove(m.toMove(p, m));

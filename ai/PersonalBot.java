@@ -14,6 +14,7 @@ public class PersonalBot implements SliderPlayer{
 
 	private final int WEIGHT_PCES_RMVD = 10;
 	private final int WEIGHT_PCES_END = 2;
+	private final int MINIMAX_DEPTH = 4;
 	
 	@Override
 	public void init(int dimension, String board, char player) {
@@ -44,7 +45,9 @@ public class PersonalBot implements SliderPlayer{
 	//the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(2, this.player);
+		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player);
+		Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
+		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
 		
 		return bestMove.getMove();
 	}
