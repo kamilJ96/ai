@@ -45,7 +45,7 @@ public class PersonalBot implements SliderPlayer{
 	//the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(b, MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
+		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
 		Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
 		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
 		
@@ -53,11 +53,11 @@ public class PersonalBot implements SliderPlayer{
 	}
 	
 	
-	private ScoredMove miniMax(PersonalBoard b, int depth, char piece, int alpha, int beta){
+	private ScoredMove miniMax(int depth, char piece, int alpha, int beta){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
-		PersonalBoard newBoard = new PersonalBoard(b);
+		
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
 		int max = Integer.MAX_VALUE;
 		int min = Integer.MIN_VALUE;
@@ -73,16 +73,18 @@ public class PersonalBot implements SliderPlayer{
 			bestScore = max;
 		
 		//create children
-		children = b.createChildren(player, b);
+		children = b.createChildren(piece, b);
 		
 		// Check if we've reached our depth, or a terminal node
 		// Else recurse to the next level
-		if (depth == 0 || children.isEmpty())
-			bestScore = evalBoard(newBoard, piece);
+		if (depth == 0 || children.isEmpty()) {
+			bestScore = evalBoard(piece);
+			System.out.println("best score is" + bestScore);
+		}
 		else {
 			for (PersonalBoard child : children) {
 				if (piece == player) {
-					currScore = miniMax(newBoard, depth - 1, opponent, alpha, beta).getScore();
+					currScore = miniMax(depth - 1, opponent, alpha, beta).getScore();
 //					if (currScore > bestScore) {
 //					bestScore = currScore;
 					if(currScore > alpha) {
@@ -91,7 +93,7 @@ public class PersonalBot implements SliderPlayer{
 					}	
 				}
 				else {
-					currScore = miniMax(newBoard, depth - 1, player, alpha, beta).getScore();
+					currScore = miniMax(depth - 1, player, alpha, beta).getScore();
 //					if (currScore < bestScore) {
 //						bestScore = currScore;
 					if(currScore < beta) {
@@ -99,11 +101,6 @@ public class PersonalBot implements SliderPlayer{
 						bestMove.setMove(child.getMove());
 					}
 				}
-				
-				Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
-				if(piece == player) newBoard.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
-				else newBoard.updateBoard(move, opponent, PersonalMoves.toPersonalMoves(bestMove.getMove()));
-				
 			}
 		}
 		
@@ -111,7 +108,7 @@ public class PersonalBot implements SliderPlayer{
 		return bestMove;
 	}
 	
-	private int evalBoard(PersonalBoard b, char piece) {
+	private int evalBoard(char piece) {
 		int score = 0;
 		int numPieces = b.getSize() - 1;
 		
