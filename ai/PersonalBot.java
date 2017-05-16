@@ -5,6 +5,7 @@ package bleh;
 
 import aiproj.slider.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PersonalBot implements SliderPlayer {
 	private char player;
@@ -14,7 +15,7 @@ public class PersonalBot implements SliderPlayer {
 
 	private final int WEIGHT_PCES_RMVD = 10;
 	private final int WEIGHT_PCES_END = 2;
-	private final int MINIMAX_DEPTH = 4;
+	private final int MINIMAX_DEPTH = 7;
 
 	@Override
 	public void init(int dimension, String board, char player) {
@@ -44,83 +45,115 @@ public class PersonalBot implements SliderPlayer {
 	// the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player, 100 * b.getSize() * b.getSize(),
-				-100 * b.getSize() * b.getSize());
-		Integer[] move = { bestMove.getMove().i, bestMove.getMove().j };
-		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
-
+		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player, Integer.MIN_VALUE, Integer.MAX_VALUE);
+		if (bestMove.getMove() != null) {
+			Integer[] move = { bestMove.getMove().i, bestMove.getMove().j };
+			b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
+		}
 		return bestMove.getMove();
 	}
 
-	private ScoredMove miniMax(int depth, char piece, int alpha, int beta){
-	
-		// to adapt
-		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
-		
-		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-		ArrayList<Integer[]> pieces = new ArrayList<Integer[]>();
-		int max = Integer.MAX_VALUE;
-		int min = Integer.MIN_VALUE;
-		
+	private ScoredMove miniMax(int depth, char piece, int alpha, int beta) {
+		ArrayList<PersonalMoves> children = new ArrayList<PersonalMoves>();
+
+		// Get a new list of all the players pieces
+		ArrayList<Integer[]> pieces = copyPieces(b.getPieces(piece));
+
 		int bestScore;
 		int currScore;
-		ScoredMove bestMove = new ScoredMove(0, null);
-		
-		// If it's our turn we want to maximize our score
+
+		// We want to get a high score, opponent a low score
 		if (piece == player)
-			bestScore = min;
+			bestScore = beta;
 		else
-			bestScore = max;
-		
-		//create children
-		pieces = b.getPieces(piece);
-		//children = b.createChildren(player, b);
-		
-		// Check if we've reached our depth, or a terminal node
-		// Else recurse to the next level
-		if (depth == 0)
-			bestScore = evalBoard(b, piece);
-		else {
+			bestScore = alpha;
+
+		ScoredMove bestMove = new ScoredMove(0, null);
+
+		// Check if we've reached our depth, or a terminal node, and get the
+		// score for the board
+		if (depth == 0 || pieces.size() == 0) {
+			bestScore = evalBoard();
+			bestMove.setScore(bestScore);
+			return bestMove;
+		} else {
 			for (Integer[] p : pieces) {
+				// Go through each piece and generate a list of possible moves
 				children = b.genMoves(p, piece, b);
-				for (PersonalBoard child : children) {
+				for (PersonalMoves child : children) {
+					// For each move, update the board and check the score of the move
+//					System.out.println("Moving " + piece + " {" + p[0] + ", " + p[1] + "} " + child.name());
+					b.updateBoard(p, piece, child);
+//					b.printPieces();
+
 					if (piece == player) {
 						currScore = miniMax(depth - 1, opponent, alpha, beta).getScore();
-	//					if (currScore > bestScore) {
-	//					bestScore = currScore;
-						if(currScore > alpha) {
+						if (currScore > alpha) {
 							alpha = currScore;
-							bestMove.setMove(child.getMove());
-						}	
-					}
-					else {
+							bestMove.setMove(child.toMove(p, child));
+						}
+					} else {
 						currScore = miniMax(depth - 1, player, alpha, beta).getScore();
-	//					if (currScore < bestScore) {
-	//						bestScore = currScore;
-						if(currScore < beta) {
+						if (currScore < beta) {
 							beta = currScore;
-							bestMove.setMove(child.getMove());
+							bestMove.setMove(child.toMove(p, child));
 						}
 					}
+
+					// Revert the move to preserve board state
+//					System.out.println("Reverting " + piece + " {" + p[0] + ", " + p[1] + "} " + child.name());
+					b.rollback(p, piece, child);
+//					b.printPieces();
+					if (alpha >= beta)
+						break;
 				}
 			}
 		}
-		bestMove.setScore(bestScore);
+
 		return bestMove;
 	}
 
-	private int evalBoard(PersonalBoard b, char piece) {
+	private int evalBoard() {
 		int score = 0;
 		int numPieces = b.getSize() - 1;
 
 		// Add to our score for every piece we've removed from the board
-		score += (numPieces - b.getPieces(piece).size()) * WEIGHT_PCES_RMVD;
+		score += (numPieces - b.getPieces(player).size()) * WEIGHT_PCES_RMVD;
+		score -= (numPieces - b.getPieces(opponent).size()) * WEIGHT_PCES_RMVD;
 
 		// Add to our score for every piece that's closer to the goal state
 		// The closer they are to their respective end, the more score it gets
 		// Possibly just use the row or column index of the piece as its score
 
+		for (Integer[] pos : b.getPieces(player)) {
+			score += score(pos, player);
+		}
+
+		for (Integer[] pos : b.getPieces(opponent)) {
+			score -= score(pos, opponent);
+		}
+
 		return score;
+	}
+
+	private int score(Integer[] piece, char player) {
+		// weigh value by distance traveled in direction of winning
+		if (player == 'V') {
+			return piece[1] * piece[1];
+		} else {
+			return piece[0] * piece[0];
+		}
+	}
+
+	private ArrayList<Integer[]> copyPieces(ArrayList<Integer[]> pieces) {
+		ArrayList<Integer[]> copy = new ArrayList<Integer[]>();
+
+		for (Integer[] piece : pieces) {
+			Integer[] copyPiece = Arrays.copyOf(piece, 2);
+			copy.add(copyPiece);
+		}
+
+		return copy;
 	}
 
 }

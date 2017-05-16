@@ -3,6 +3,7 @@ package bleh;
 /* Kamil Jakrzewski kjakrzewski
  * Ai-Linh Tran taal */
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -34,13 +35,11 @@ public class PersonalBoard {
 	// copy constructor
 	public PersonalBoard(PersonalBoard b) {
 		this.size = b.getSize();
-		hPieces = new ArrayList<Integer[]>();
-		hPieces = b.getPieces('H');
-		
-		vPieces = new ArrayList<Integer[]>();
-		vPieces = b.getPieces('V');
-		
-		this.board = b.getBoard();
+		this.board = new char[size][size];
+		System.arraycopy(b.getBoard(), 0, this.board, 0, this.board.length);
+
+		hPieces = new ArrayList<Integer[]>(b.getPieces('H'));
+		vPieces = new ArrayList<Integer[]>(b.getPieces('V'));
 
 	}
 
@@ -74,6 +73,8 @@ public class PersonalBoard {
 			x++;
 			pos++;
 		}
+
+		scan.close();
 
 		return board;
 	}
@@ -143,70 +144,66 @@ public class PersonalBoard {
 
 	}
 
-	/** Generate a list of possible moves for each piece */
-	public ArrayList<PersonalBoard> createChildren(char player, PersonalBoard b) {
+	public ArrayList<PersonalMoves> genMoves(Integer[] p, char player, PersonalBoard b) {
 		Police check;
-		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-
-		if (player == 'H') {
-			for (Integer[] p : hPieces) {
-				for (PersonalMoves m : PersonalMoves.H_MOVES) {
-					check = new Police(p[0], p[1], b);
-					if (check.hCheck(m)) {
-						PersonalBoard newBoard = new PersonalBoard(b);
-						newBoard.updateBoard(p, player, m);
-						newBoard.setMove(m.toMove(p, m));
-						children.add(newBoard);
-					}
-				}
-			}
-		} else {
-			for (Integer[] p : vPieces) {
-				for (PersonalMoves m : PersonalMoves.V_MOVES) {
-					check = new Police(p[0], p[1], b);
-					if (check.vCheck(m)) {
-						PersonalBoard newBoard = new PersonalBoard(b);
-						newBoard.updateBoard(p, player, m);
-						newBoard.setMove(m.toMove(p, m));
-						children.add(newBoard);
-					}
-				}
-			}
-		}
-
-		return children;
-	}
-
-	public ArrayList<PersonalBoard> genMoves(Integer[] p, char player, PersonalBoard b) {
-		Police check;
-		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
-		PersonalBoard newBoard = new PersonalBoard(b);
-
+		ArrayList<PersonalMoves> children = new ArrayList<PersonalMoves>();
 
 		if (player == 'H') {
 			for (PersonalMoves m : PersonalMoves.H_MOVES) {
 				check = new Police(p[0], p[1], b);
-				if (check.hCheck(m)) {
-					newBoard.updateBoard(p, player, m);
-					newBoard.setMove(m.toMove(p, m));
-					children.add(newBoard);
-				}
+				if (check.hCheck(m))
+					children.add(m);
 			}
 		} else {
 			for (PersonalMoves m : PersonalMoves.V_MOVES) {
 				check = new Police(p[0], p[1], b);
 				if (check.vCheck(m)) {
-					newBoard.updateBoard(p, player, m);
-					newBoard.setMove(m.toMove(p, m));
-					children.add(newBoard);
+					children.add(m);
 				}
 			}
 		}
-		
-		ArrayList<Integer[]> pieces = newBoard.getPieces(player);
-		for (Integer[] piece : pieces)
-			System.out.println("{" + piece[0] + ", " + piece[1] + "}");
-		
 		return children;
+	}
+
+	public void rollback(Integer[] piece, char player, PersonalMoves move) {
+		Integer[] movedPiece = new Integer[2];
+		movedPiece[0] = piece[0] + move.getX();
+		movedPiece[1] = piece[1] + move.getY();
+
+		// Remove the moved piece (if it's still on the board) and free the cell
+		if ((movedPiece[0] >= 0 && movedPiece[1] >= 0) && (movedPiece[0] < this.size && movedPiece[1] < this.size)) {
+			if (player == 'H') {
+				for (Integer[] p : hPieces) {
+					if (movedPiece[0] == p[0] && movedPiece[1] == p[1]) {
+						hPieces.remove(p);
+						break;
+					}
+				}
+			} else {
+				for (Integer[] p : vPieces) {
+					if (movedPiece[0] == p[0] && movedPiece[1] == p[1]) {
+						vPieces.remove(p);
+						break;
+					}
+				}
+			}
+			this.setCell(movedPiece[0], movedPiece[1], '+');
+		}
+
+		// Add the old piece back and change the cell to the piece
+		Integer[] oldPiece = Arrays.copyOf(piece, 2);
+		if (player == 'H')
+			hPieces.add(oldPiece);
+		else
+			vPieces.add(oldPiece);
+
+		this.setCell(piece[0], piece[1], player);
+	}
+
+	public void printPieces() {
+		System.out.println("H pieces\tV pieces");
+		for (int i = 0; i < hPieces.size(); i++)
+			System.out.println("{" + hPieces.get(i)[0] + ", " + hPieces.get(i)[1] + "}\t\t{" + vPieces.get(i)[0] + ", "
+					+ vPieces.get(i)[1] + "}");
 	}
 }
