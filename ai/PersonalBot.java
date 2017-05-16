@@ -53,11 +53,11 @@ public class PersonalBot implements SliderPlayer{
 	}
 	
 	
-	private ScoredMove miniMax(int depth, char piece, int alpha, int beta){
+	private ScoredMove miniMax(PersonalBoard b, int depth, char piece, int alpha, int beta){
 	
 		// to adapt
 		//	https://www3.ntu.edu.sg/home/ehchua/programming/java/javagame_tictactoe_ai.html#zz-1.5
-		
+		PersonalBoard newBoard = new PersonalBoard(b);
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
 		int max = Integer.MAX_VALUE;
 		int min = Integer.MIN_VALUE;
@@ -82,7 +82,7 @@ public class PersonalBot implements SliderPlayer{
 		else {
 			for (PersonalBoard child : children) {
 				if (piece == player) {
-					currScore = miniMax(depth - 1, opponent, alpha, beta).getScore();
+					currScore = miniMax(newBoard, depth - 1, opponent, alpha, beta).getScore();
 //					if (currScore > bestScore) {
 //					bestScore = currScore;
 					if(currScore > alpha) {
@@ -99,6 +99,11 @@ public class PersonalBot implements SliderPlayer{
 						bestMove.setMove(child.getMove());
 					}
 				}
+				
+				Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
+				if(piece == player) newBoard.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
+				else newBoard.updateBoard(move, opponent, PersonalMoves.toPersonalMoves(bestMove.getMove()));
+				
 			}
 		}
 		
