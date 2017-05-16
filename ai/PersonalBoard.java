@@ -30,11 +30,11 @@ public class PersonalBoard {
 		this.board = populate(args);
 		this.miniMaxVal = 0;
 	}
-	
-	//copy constructor
+
+	// copy constructor
 	public PersonalBoard(PersonalBoard b) {
 		this(b.getArgs(), b.getSize());
-		
+
 	}
 
 	private char[][] populate(String args) {
@@ -44,7 +44,7 @@ public class PersonalBoard {
 		int y = size;
 		int pos = 0;
 
-		while (scan.hasNext()){
+		while (scan.hasNext()) {
 			// Move to the next row
 			// populate board from higher count since bottom-left = (0,0)
 			// and top-right = (N-1, N-1)
@@ -52,7 +52,7 @@ public class PersonalBoard {
 				y--;
 				x = 0;
 			}
-			
+
 			char s = scan.next().charAt(0);
 			board[y][x] = s;
 			// Keep track of where each piece is on the board
@@ -74,7 +74,7 @@ public class PersonalBoard {
 	public int getSize() {
 		return this.size;
 	}
-	
+
 	public String getArgs() {
 		return this.args;
 	}
@@ -86,7 +86,7 @@ public class PersonalBoard {
 	public char getCell(int x, int y) {
 		return board[y][x];
 	}
-	
+
 	public void setCell(int x, int y, char value) {
 		board[y][x] = value;
 	}
@@ -96,47 +96,46 @@ public class PersonalBoard {
 			return hPieces;
 		return vPieces;
 	}
-	
-	public void setMove(Move m){
+
+	public void setMove(Move m) {
 		this.moveMade = m;
 	}
-	
-	public Move getMove(){
+
+	public Move getMove() {
 		return moveMade;
 	}
-	
-	public PersonalMoves getDir(){
+
+	public PersonalMoves getDir() {
 		return dir;
 	}
 
-	
-	public void updateBoard(Integer[] pos, char player, PersonalMoves m){
-        Iterator<Integer[]> pieceIter;
-        if (player == 'H')
-            pieceIter = hPieces.iterator();
-        else
-            pieceIter = vPieces.iterator();
+	public void updateBoard(Integer[] pos, char player, PersonalMoves m) {
+		Iterator<Integer[]> pieceIter;
+		if (player == 'H')
+			pieceIter = hPieces.iterator();
+		else
+			pieceIter = vPieces.iterator();
 
-        while (pieceIter.hasNext()) {
-            Integer[] p = pieceIter.next();
-            if(p[0] == pos[0] && p[1] == pos[1]){
-                p[0] += m.getX();
-                p[1] += m.getY();
-                
-                // Update the previous cell, and only the next cell if the player's
-                // piece is still on the board
-                if (p[0] < this.size && p[1] < this.size)	
-                    this.setCell(p[0], p[1], player);
-                else
-                    pieceIter.remove();
-                this.setCell(pos[0], pos[1], '+');
-                break;
-            }
-        }
+		while (pieceIter.hasNext()) {
+			Integer[] p = pieceIter.next();
+			if (p[0] == pos[0] && p[1] == pos[1]) {
+				p[0] += m.getX();
+				p[1] += m.getY();
 
+				// Update the previous cell, and only the next cell if the
+				// player's
+				// piece is still on the board
+				if (p[0] < this.size && p[1] < this.size)
+					this.setCell(p[0], p[1], player);
+				else
+					pieceIter.remove();
+				this.setCell(pos[0], pos[1], '+');
+				break;
+			}
+		}
 
-    }
-	
+	}
+
 	/** Generate a list of possible moves for each piece */
 	public ArrayList<PersonalBoard> createChildren(char player, PersonalBoard b) {
 		Police check;
@@ -168,6 +167,34 @@ public class PersonalBoard {
 			}
 		}
 
+		return children;
+	}
+
+	public ArrayList<PersonalBoard> genMoves(Integer[] p, char player, PersonalBoard b) {
+		Police check;
+		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
+
+		if (player == 'H') {
+			for (PersonalMoves m : PersonalMoves.H_MOVES) {
+				check = new Police(p[0], p[1], b);
+				if (check.hCheck(m)) {
+					PersonalBoard newBoard = new PersonalBoard(b);
+					newBoard.updateBoard(p, player, m);
+					newBoard.setMove(m.toMove(p, m));
+					children.add(newBoard);
+				}
+			}
+		} else {
+			for (PersonalMoves m : PersonalMoves.V_MOVES) {
+				check = new Police(p[0], p[1], b);
+				if (check.vCheck(m)) {
+					PersonalBoard newBoard = new PersonalBoard(b);
+					newBoard.updateBoard(p, player, m);
+					newBoard.setMove(m.toMove(p, m));
+					children.add(newBoard);
+				}
+			}
+		}
 		return children;
 	}
 }
