@@ -79,7 +79,7 @@ public class PersonalBot implements SliderPlayer{
 		// Check if we've reached our depth, or a terminal node
 		// Else recurse to the next level
 		if (depth == 0 || children.isEmpty()) {
-			bestScore = evalBoard(piece);
+			bestScore = evalBoard(b, piece);
 			System.out.println("best score is" + bestScore);
 		}
 		else {
@@ -110,7 +110,7 @@ public class PersonalBot implements SliderPlayer{
 		return bestMove;
 	}
 	
-	private int evalBoard(char piece) {
+	private int evalBoard(PersonalBoard b, char piece) {
 		int score = 0;
 		int numPieces = b.getSize() - 1;
 		
