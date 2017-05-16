@@ -46,8 +46,11 @@ public class PersonalBot implements SliderPlayer{
 	@Override
 	public Move move() {
 		ScoredMove bestMove = miniMax(b, MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
-		Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
-		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
+		if(bestMove != null){
+			Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
+			b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
+		}
+		
 		
 		return bestMove.getMove();
 	}
@@ -86,23 +89,24 @@ public class PersonalBot implements SliderPlayer{
 			for (PersonalBoard child : children) {
 				if (piece == player) {
 					currScore = miniMax(child, depth - 1, opponent, alpha, beta).getScore();
-//					if (currScore > bestScore) {
-//					bestScore = currScore;
-					if(currScore > alpha) {
-						alpha = currScore;
+					if (currScore > bestScore) {
+					bestScore = currScore;
+//					if(currScore > alpha) {
+//						alpha = currScore;
 						bestMove.setMove(child.getMove());
 					}	
 				}
 				else {
 					currScore = miniMax(child, depth - 1, player, alpha, beta).getScore();
-//					if (currScore < bestScore) {
-//						bestScore = currScore;
-					if(currScore < beta) {
-						beta = currScore;
+					if (currScore < bestScore) {
+						bestScore = currScore;
+//					if(currScore < beta) {
+//						beta = currScore;
 						bestMove.setMove(child.getMove());
 					}
 				}
-				
+				System.out.println("Child");
+				System.out.println(child);
 			}
 		}
 		
@@ -115,7 +119,7 @@ public class PersonalBot implements SliderPlayer{
 		int numPieces = b.getSize() - 1;
 		
 		// Add to our score for every piece we've removed from the board
-//		score += (numPieces - b.getPieces(piece).size()) * WEIGHT_PCES_RMVD;
+		score += (numPieces - b.getPieces(piece).size()) * WEIGHT_PCES_RMVD;
 		
 		// Add to our score for every piece that's closer to the goal state
 		// The closer they are to their respective end, the more score it gets
@@ -128,9 +132,7 @@ public class PersonalBot implements SliderPlayer{
 
 		for(Integer[] pos : b.getPieces(opponent)) {
 			score -= score(pos, opponent) * (numPieces - b.getPieces(opponent).size()) * WEIGHT_PCES_RMVD;;;
-		}
-
-		
+		}	
 		
 		return score;
 	}
@@ -139,10 +141,10 @@ public class PersonalBot implements SliderPlayer{
 	private int score(Integer[] piece, char player) {
 		//weigh value by distance traveled in direction of winning
 		if(player == 'H') {
-			return (b.getSize() - piece[1]) * piece[1];
+			return  piece[1] * piece[1];
 		}
 		else {
-			return (b.getSize() - piece[0]) * piece[0];
+			return piece[0] * piece[0];
 		}
 	}
 	

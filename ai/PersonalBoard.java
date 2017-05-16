@@ -114,7 +114,7 @@ public class PersonalBoard {
 		
 		for(int i = 0; i < size; i++ ) {
 			for(int j = 0; j < size; j++) {
-				bString += board[i][j];
+				bString += board[i][j] + ' ';
 			}
 			bString += '\n';
 		}
@@ -179,6 +179,7 @@ public class PersonalBoard {
 				}
 			}
 		}
+		
 
 		return children;
 	}
