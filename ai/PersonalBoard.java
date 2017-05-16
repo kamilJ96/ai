@@ -33,7 +33,14 @@ public class PersonalBoard {
 
 	// copy constructor
 	public PersonalBoard(PersonalBoard b) {
-		this(b.getArgs(), b.getSize());
+		this.size = b.getSize();
+		hPieces = new ArrayList<Integer[]>();
+		hPieces = b.getPieces('H');
+		
+		vPieces = new ArrayList<Integer[]>();
+		vPieces = b.getPieces('V');
+		
+		this.board = b.getBoard();
 
 	}
 
@@ -173,12 +180,13 @@ public class PersonalBoard {
 	public ArrayList<PersonalBoard> genMoves(Integer[] p, char player, PersonalBoard b) {
 		Police check;
 		ArrayList<PersonalBoard> children = new ArrayList<PersonalBoard>();
+		PersonalBoard newBoard = new PersonalBoard(b);
+
 
 		if (player == 'H') {
 			for (PersonalMoves m : PersonalMoves.H_MOVES) {
 				check = new Police(p[0], p[1], b);
 				if (check.hCheck(m)) {
-					PersonalBoard newBoard = new PersonalBoard(b);
 					newBoard.updateBoard(p, player, m);
 					newBoard.setMove(m.toMove(p, m));
 					children.add(newBoard);
@@ -188,13 +196,17 @@ public class PersonalBoard {
 			for (PersonalMoves m : PersonalMoves.V_MOVES) {
 				check = new Police(p[0], p[1], b);
 				if (check.vCheck(m)) {
-					PersonalBoard newBoard = new PersonalBoard(b);
 					newBoard.updateBoard(p, player, m);
 					newBoard.setMove(m.toMove(p, m));
 					children.add(newBoard);
 				}
 			}
 		}
+		
+		ArrayList<Integer[]> pieces = newBoard.getPieces(player);
+		for (Integer[] piece : pieces)
+			System.out.println("{" + piece[0] + ", " + piece[1] + "}");
+		
 		return children;
 	}
 }
