@@ -45,7 +45,7 @@ public class PersonalBot implements SliderPlayer{
 	//the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(this.b, MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
+		ScoredMove bestMove = miniMax(b, MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
 		Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
 		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
 		
@@ -65,8 +65,7 @@ public class PersonalBot implements SliderPlayer{
 		int bestScore;
 		int currScore;
 		ScoredMove bestMove = new ScoredMove(0, null);
-		
-		PersonalBoard newBoard = new PersonalBoard(b);
+
 		
 		// If it's our turn we want to maximize our score
 		if (piece == player)
@@ -86,7 +85,7 @@ public class PersonalBot implements SliderPlayer{
 		else {
 			for (PersonalBoard child : children) {
 				if (piece == player) {
-					currScore = miniMax(b, depth - 1, opponent, alpha, beta).getScore();
+					currScore = miniMax(child, depth - 1, opponent, alpha, beta).getScore();
 //					if (currScore > bestScore) {
 //					bestScore = currScore;
 					if(currScore > alpha) {
@@ -95,7 +94,7 @@ public class PersonalBot implements SliderPlayer{
 					}	
 				}
 				else {
-					currScore = miniMax(b, depth - 1, player, alpha, beta).getScore();
+					currScore = miniMax(child, depth - 1, player, alpha, beta).getScore();
 //					if (currScore < bestScore) {
 //						bestScore = currScore;
 					if(currScore < beta) {
@@ -103,8 +102,7 @@ public class PersonalBot implements SliderPlayer{
 						bestMove.setMove(child.getMove());
 					}
 				}
-				Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
-				newBoard.updateBoard(move, piece, PersonalMoves.toPersonalMoves(bestMove.getMove()));
+				
 			}
 		}
 		
