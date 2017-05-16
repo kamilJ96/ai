@@ -45,7 +45,7 @@ public class PersonalBot implements SliderPlayer{
 	//the strategy
 	@Override
 	public Move move() {
-		ScoredMove bestMove = miniMax(MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
+		ScoredMove bestMove = miniMax(b, MINIMAX_DEPTH, this.player, 100*b.getSize()*b.getSize(), -100*b.getSize()*b.getSize());
 		Integer[] move = {bestMove.getMove().i, bestMove.getMove().j};
 		b.updateBoard(move, player, PersonalMoves.toPersonalMoves(bestMove.getMove()));
 		
@@ -78,7 +78,7 @@ public class PersonalBot implements SliderPlayer{
 		// Check if we've reached our depth, or a terminal node
 		// Else recurse to the next level
 		if (depth == 0 || children.isEmpty())
-			bestScore = evalBoard(b, piece);
+			bestScore = evalBoard(newBoard, piece);
 		else {
 			for (PersonalBoard child : children) {
 				if (piece == player) {
@@ -91,7 +91,7 @@ public class PersonalBot implements SliderPlayer{
 					}	
 				}
 				else {
-					currScore = miniMax(depth - 1, player, alpha, beta).getScore();
+					currScore = miniMax(newBoard, depth - 1, player, alpha, beta).getScore();
 //					if (currScore < bestScore) {
 //						bestScore = currScore;
 					if(currScore < beta) {
