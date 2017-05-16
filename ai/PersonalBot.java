@@ -115,14 +115,35 @@ public class PersonalBot implements SliderPlayer{
 		int numPieces = b.getSize() - 1;
 		
 		// Add to our score for every piece we've removed from the board
-		score += (numPieces - b.getPieces(piece).size()) * WEIGHT_PCES_RMVD;
+//		score += (numPieces - b.getPieces(piece).size()) * WEIGHT_PCES_RMVD;
 		
 		// Add to our score for every piece that's closer to the goal state
 		// The closer they are to their respective end, the more score it gets
 		// Possibly just use the row or column index of the piece as its score
 		
+		 		
+		for(Integer[] pos : b.getPieces(player)) {
+			score += score(pos, player) * (numPieces - b.getPieces(player).size()) * WEIGHT_PCES_RMVD;;
+		}
+
+		for(Integer[] pos : b.getPieces(opponent)) {
+			score -= score(pos, opponent) * (numPieces - b.getPieces(opponent).size()) * WEIGHT_PCES_RMVD;;;
+		}
+
+		
+		
 		return score;
 	}
-		
+	
+	
+	private int score(Integer[] piece, char player) {
+		//weigh value by distance traveled in direction of winning
+		if(player == 'H') {
+			return (b.getSize() - piece[1]) * piece[1];
+		}
+		else {
+			return (b.getSize() - piece[0]) * piece[0];
+		}
+	}
 	
 }
