@@ -117,6 +117,20 @@ public class PersonalBoard {
 		return dir;
 	}
 
+public String toString() {
+  		String bString = "";
+  		
+  		for(int i = 0; i < size; i++ ) {
+  			for(int j = 0; j < size; j++) {
+				bString += board[j][i] + ' ';
+  			}
+ 			
+ 			bString += '\n';
+  		}
+  		
+  		return bString;
+}
+
 	public void updateBoard(Integer[] pos, char player, PersonalMoves m) {
 		Iterator<Integer[]> pieceIter;
 		if (player == 'H')

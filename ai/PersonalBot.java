@@ -100,6 +100,8 @@ public class PersonalBot implements SliderPlayer {
 						}
 					}
 
+					System.out.println("Child");
+					System.out.println(b.toString());
 					// Revert the move to preserve board state
 //					System.out.println("Reverting " + piece + " {" + p[0] + ", " + p[1] + "} " + child.name());
 					b.rollback(p, piece, child);
