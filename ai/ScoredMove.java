@@ -1,5 +1,9 @@
 package meow.bleh.hopefullynoonehasthisname;
 
+/* Ai-Linh Tran taal
+ * Kamil Jakrzewski kjakrzewski
+ */
+
 import aiproj.slider.Move;
 
 public class ScoredMove {
