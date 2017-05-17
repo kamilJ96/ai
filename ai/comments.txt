@@ -4,7 +4,7 @@ Kamil Jakrzewski kjakrzewski
 
 Our solution utilizes the minimax function with alpha-beta pruning.  The horizontal and vertical legal moves are ordered by preference so that the scoring is more likely to pick up and implement the prefered move.
 
-We generate a list of possible moves based on each piece belonging to the player at that point in time, move the board, apply a score to the it with the evaluation function, then roll it back until we find the 'best' score and commit to that move.
+We generate a list of possible moves based on each piece belonging to the player at that point in time, move the board, apply a score to the it with the evaluation function, then roll it back until we find the 'best' score and commit to that move.  If a piece has no moves it can make, it will not have any children.  This will cause the agent to pass the move by passing null to the Referee to 'pass' its turn if there are no legal moves available for all player pieces.
 
 Our evaluation function gives more weight to moves that are more likely block the opponent's pieces and moves that allow it a greater degree of freedom to move towards the goal state. At the most basic level we score our board state based on the squared distance that a piece has traveled in the direction of its goal.  The depth to which we traverse the minimax graph is chosen in order to optimize the speed of the calculations so that it is within the limits as specified in the Project Doc.
 
