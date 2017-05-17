@@ -3,7 +3,7 @@ package meow.bleh.hopefullynoonehasthisname;
 /* Ai-Linh Tran taal
  * Kamil Jakrzewski kjakrzewski
  * This is our checker class.  It determines legal moves, and whatever else
- * requires checking. Ignore the commented out methods at the bottom :) */
+ * requires checking. */
 
 
 public class Police {
